@@ -5,12 +5,13 @@ import { Link } from "react-router-dom";
 import logo_suwon from "../../lib/img/logo/logo_suwon.png";
 import Dropdown from "./Dropdown";
 import { useState } from "react";
+import palette from "../../lib/styles/palette";
 
 const UtilMenu = styled.div`
   position: fixed;
   width: 100%;
   background: white;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.26);
 `;
 
 const Nav = styled.div`
@@ -21,6 +22,25 @@ const Nav = styled.div`
   width: 100%;
   background: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  .select-all {
+    margin-right: 5px;
+    font-size: 15px;
+    width: 140px;
+    height: 2.5rem;
+    border: 2px solid ${palette.cyan[8]};
+  }
+  .srch {
+    font-size: 15px;
+    border: 2px solid ${palette.cyan[8]};
+    width: 300px;
+    height: 2.5rem;
+  }
+  .srchBtn {
+    font-size: 15px;
+    width: 45px;
+    height: 40px;
+    border: 2px solid ${palette.cyan[8]};
+  }
 `;
 
 /**
