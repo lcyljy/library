@@ -1,10 +1,7 @@
 import styled from "styled-components";
 import Responsive from "./Responsive";
-import Button from "./Button";
 import { Link } from "react-router-dom";
 import logo_suwon from "../../lib/img/logo/logo_suwon.png";
-import Dropdown from "./Dropdown";
-import { useState } from "react";
 import palette from "../../lib/styles/palette";
 
 const UtilMenu = styled.div`
@@ -108,8 +105,6 @@ const Spacer = styled.div`
 `;
 
 const Header = () => {
-  const [dropdownVisibility, setDropdownVisibility] = useState(false);
-
   return (
     <>
       <UtilMenu>
@@ -139,17 +134,7 @@ const Header = () => {
             </Link>
           </div>
           <div className='right'>
-            <Button onClick={(e) => setDropdownVisibility(!dropdownVisibility)}>
-              메뉴
-            </Button>
-            <Dropdown visibility={dropdownVisibility}>
-              <ul>
-                <li>item 1</li>
-                <li>item 2</li>
-                <li>item 3</li>
-                <li>item 4</li>
-              </ul>
-            </Dropdown>
+            <div></div>
           </div>
         </WrapperNav>
       </Nav>
