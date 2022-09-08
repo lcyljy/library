@@ -24,3 +24,6 @@ yarn-error.log*
 
 public
 프로젝트.md
+
+#API KEY
+.env
