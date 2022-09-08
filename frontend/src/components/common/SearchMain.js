@@ -30,7 +30,6 @@ const Links = styled.div`
   }
 `;
 
-const ImgMenus = styled.div``;
 function SearchMain() {
   const menuList = [
     "인기도서",
@@ -50,10 +49,10 @@ function SearchMain() {
     "ico_main_link_11",
   ];
   const menuListRender = menuList.map((name, i) => (
-    <div className='list'>
+    <div className='list' key={i}>
       <img
         src={require(`../../lib/img/main_icon/${imgSrc[i]}.png`)}
-        alt='ico_main_link_03'
+        alt={`ico_main_link_4${imgSrc[i]}`}
         width='80px'
         height='80px'
       ></img>
@@ -67,17 +66,7 @@ function SearchMain() {
     <>
       <Inner>
         <div className='box_link'>
-          <Links>
-            {menuListRender}
-            <ImgMenus>
-              <div>
-                {/* <img
-                  src={require(`../../lib/img/main_icon/${imgSrc[i]}.png`)}
-                  alt='ico_main_link_03'
-                ></img> */}
-              </div>
-            </ImgMenus>
-          </Links>
+          <Links>{menuListRender}</Links>
         </div>
       </Inner>
     </>
