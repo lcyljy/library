@@ -2,10 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 const DisplayContainer = styled.div`
+  width: 70%;
+  padding: 70px 0;
   position: relative;
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 `;
 
 function Container(props) {
