@@ -5,6 +5,7 @@ import logo_suwon from "../../lib/img/logo/logo_suwon.png";
 import palette from "../../lib/styles/palette";
 
 const UtilMenu = styled.div`
+  z-index: 10000;
   position: fixed;
   width: 100%;
   background: white;
@@ -12,6 +13,7 @@ const UtilMenu = styled.div`
 `;
 
 const Nav = styled.div`
+  z-index: 10000;
   padding-left: 2rem;
   padding-right: 2rem;
   margin-top: 2.6rem;

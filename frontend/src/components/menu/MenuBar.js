@@ -8,6 +8,7 @@ import MenuImg from "../../lib/img/nav_icon/bg_gnb_01.png";
 import { Link } from "react-router-dom";
 
 const MainMenuContainer = styled(Button)`
+  z-index: 10001;
   background: white;
   color: black;
   position: fixed;
@@ -18,6 +19,7 @@ const MainMenuContainer = styled(Button)`
 `;
 
 const MenuBarContainer = styled(Responsive)`
+  z-index: 10001;
   position: fixed;
   width: 100%;
   height: 266px;
