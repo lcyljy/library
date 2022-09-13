@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import palette from "../../lib/styles/palette";
+import Pagination from "../posts/Pagination";
 
 // import XMLParser from "react-xml-parser";
 
@@ -8,11 +9,12 @@ const API_KEY = process.env.REACT_APP_DATA4LIBRARY_KEY;
 
 const DisplayBooks = styled.ul`
   border: 1px solid green;
-  display: flex;
-  width: 200px;
-  height: 400px;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   background: ${palette.gray[2]};
   li {
+    display: grid;
     list-style: none;
     text-decoration: none;
     padding: 4px;
@@ -26,7 +28,7 @@ const DisplayBooks = styled.ul`
 </li>
 <li className='authors'>저자명: {DB.authors}</li>
 <li className='bookImageURL'>책표지 URL: {DB.bookImageURL}</li>
-<li className='bookname'>ehtjaud: {DB.bookname}</li>
+<li className='bookname'>도서명: {DB.bookname}</li>
 <li className='class_nm'>주제분류명: {DB.class_nm}</li>
 <li className='class_no'>주제분류: {DB.class_no}</li>
 <li className='isbn13'>13자리 ISBN: {DB.isbn13}</li>
@@ -41,11 +43,10 @@ const DisplayBooks = styled.ul`
 </ul> 
 </>*/
 
-const BookImage = styled.div`
+const BookImage = styled.div.attrs({ type: "Image" })`
   display: flex;
   width: 180px;
   height: 240px;
-  background-image: url(${(props) => props.bookImageURL});
   background-size: contain;
   background-repeat: no-repeat;
 `;
@@ -53,7 +54,10 @@ const BookImage = styled.div`
 function BookRender() {
   const App = () => {
     const [data, setData] = useState({ response: {} });
-
+    // const [limit, setLimit] = useState(20);
+    const limit = 20;
+    const [page, setPage] = useState(1);
+    const offSet = (page - 1) * limit;
     useEffect(() => {
       (async () => {
         const res = await fetch(
@@ -68,28 +72,49 @@ function BookRender() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    console.log();
     return (
       <>
         <DisplayBooks>
-          {data.response.docs?.map((v) => {
+          {data.response.docs?.slice(offSet, offSet + limit).map((v) => {
             const DB = v.doc;
             return (
-              <>
-                <li key={DB.no}>
-                  <h2>{DB.no}</h2>
-                  <BookImage bookImageURL={DB.bookImageURL}></BookImage>
-
-                  <div>
-                    <p>
-                      도서명: {DB.bookname} = {DB.vol}
-                    </p>
-                    {DB.authors}
-                  </div>
-                </li>
-              </>
+              <li key={`${DB.isbn13} ${DB.addition_symbol}`}>
+                <h2>{DB.no}</h2>
+                <BookImage
+                  style={{ backgroundImage: `url(${DB.bookImageURL})` }}
+                ></BookImage>
+                <div>
+                  <p>
+                    도서명: {DB.bookname} = {DB.vol}
+                  </p>
+                  {DB.authors}
+                </div>
+              </li>
             );
           })}
         </DisplayBooks>
+
+        {/* <label>
+          페이지당 표시할 게시물 수: &nbsp;
+          <select
+            type='number'
+            value={limit}
+            onChange={(e) => setLimit(Number(e.target.value))}
+          >
+            <option value='5'>5</option>
+            <option value='10'>10</option>
+            <option value='12'>12</option>
+            <option value='20'>20</option>
+            <option value='50'>50</option>
+          </select>
+        </label> */}
+        <Pagination
+          total={data.response.docs?.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
       </>
     );
   };
