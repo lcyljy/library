@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import palette from "../../lib/styles/palette";
 import Pagination from "../posts/Pagination";
-
+import BookFillter from "../fillter/BookFillter";
+import Loader from "../common/Loader";
 // import XMLParser from "react-xml-parser";
 
 const API_KEY = process.env.REACT_APP_DATA4LIBRARY_KEY;
@@ -45,36 +46,69 @@ const DisplayBooks = styled.ul`
 
 const BookImage = styled.div.attrs({ type: "Image" })`
   display: flex;
-  width: 180px;
-  height: 240px;
+  background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+  width: 100%;
+  height: 180px;
 `;
 
 function BookRender() {
   const App = () => {
+    // 데이터 가져오기
     const [data, setData] = useState({ response: {} });
+    const [loading, setLoading] = useState(false);
+
+    // pagination 코드 start
     // const [limit, setLimit] = useState(20);
     const limit = 20;
     const [page, setPage] = useState(1);
     const offSet = (page - 1) * limit;
+    // pagination 코드 end
+
+    // fillter 코드 start
+    const [selectedLoc, setSelectedLoc] = useState("전체도서관");
+    const [selectedYear, setSelectedYear] = useState(22);
+    const [selectedMon, setSelectedMon] = useState(9);
+    // 나중에 date함수이용해서 현재월로 변경하기
+    // fillter 코드 end
+
     useEffect(() => {
-      (async () => {
-        const res = await fetch(
-          `http://data4library.kr/api/loanItemSrch?authKey=${API_KEY}&startDt=2022-01-01&endDt=2022-09-07&region=31&dtl_region=31012;31014;31011;31013&format=json`
-        );
-        res
-          .json()
-          .then((data) => setData(data))
-          .catch((error) => console.log("error", error));
-      })();
+      const getData = async () => {
+        setLoading(true);
+        try {
+          const res = await fetch(
+            `http://data4library.kr/api/loanItemSrch?authKey=${API_KEY}&startDt=20${selectedYear}-0${selectedMon}-01&endDt=20${selectedYear}-0${selectedMon}-28&region=31&dtl_region=31012;31014;31011;31013&format=json`
+          );
+
+          res
+            .json()
+            .then((data) => setData(data))
+            .then(setLoading(false));
+        } catch (e) {
+          console.log(`${e} error가 발생했습니다.`);
+          setLoading(false);
+        }
+      };
+      getData();
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [selectedLoc, selectedYear, selectedMon]);
 
-    console.log();
+    if (loading) {
+      console.log("isLoading");
+      return <Loader></Loader>;
+    }
+
     return (
       <>
+        <BookFillter
+          selectedLoc={selectedLoc}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
+          selectedMon={selectedMon}
+          setSelectedMon={setSelectedMon}
+        />
         <DisplayBooks>
           {data.response.docs?.slice(offSet, offSet + limit).map((v) => {
             const DB = v.doc;
@@ -86,7 +120,7 @@ function BookRender() {
                 ></BookImage>
                 <div>
                   <p>
-                    도서명: {DB.bookname} = {DB.vol}
+                    {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
                   </p>
                   {DB.authors}
                 </div>
@@ -95,20 +129,6 @@ function BookRender() {
           })}
         </DisplayBooks>
 
-        {/* <label>
-          페이지당 표시할 게시물 수: &nbsp;
-          <select
-            type='number'
-            value={limit}
-            onChange={(e) => setLimit(Number(e.target.value))}
-          >
-            <option value='5'>5</option>
-            <option value='10'>10</option>
-            <option value='12'>12</option>
-            <option value='20'>20</option>
-            <option value='50'>50</option>
-          </select>
-        </label> */}
         <Pagination
           total={data.response.docs?.length}
           limit={limit}
@@ -118,7 +138,6 @@ function BookRender() {
       </>
     );
   };
-
   return <App></App>;
 }
 
