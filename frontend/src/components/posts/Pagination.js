@@ -4,13 +4,12 @@ import Button from "../common/Button";
 
 const PaginationNav = styled.nav`
   display: flex;
-  position: absolute;
+  position: relative;
+  padding-top: 30px;
   /* height: 50px; */
-  bottom: 0;
   justify-content: center;
   align-items: center;
   gap: 4px;
-  margin: 16px;
 `;
 
 const PageButton = styled(Button)`
