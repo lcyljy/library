@@ -1,12 +1,12 @@
 import React from "react";
 import BookRender from "../../components/api/BookRender";
-import Container from "../../components/common/Container";
+import MainContainer from "../../components/common/MainContainer";
 
 function BookListContainer() {
   return (
-    <Container>
+    <MainContainer>
       <BookRender></BookRender>
-    </Container>
+    </MainContainer>
   );
 }
 
