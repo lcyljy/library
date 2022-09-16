@@ -14,7 +14,7 @@ const GlobalStyles = createGlobalStyle`
     body {
         font-family: 'NanumSquare', sans-serif;
         font-size: 14px;
-        color: black;
+        color: #323232;
     }
 `;
 
