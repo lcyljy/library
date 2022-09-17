@@ -7,7 +7,7 @@ import { LibraryList } from "../../lib/documents/LibraryList";
 const FillterContainer = styled.div`
   width: 100%;
   height: 80px;
-  background-color: ${palette.gray[3]};
+  background-color: ${palette.gray[2]};
   display: flex;
   flex-direction: column;
 `;
@@ -15,21 +15,28 @@ const FillterContainer = styled.div`
 const FillterAllWrap = styled.div`
   display: flex;
   justify-content: flex-end;
+  padding: 0.8rem;
 `;
 
 const LocateFillter = styled.select`
-  width: 120px;
-  height: 2rem;
+  font-size: 1.2em;
+  width: 140px;
+  height: 2.2rem;
+  padding: 8px 5px;
 `;
 
 const YearFillter = styled.select`
-  width: 120px;
-  height: 2rem;
+  font-size: 1.2em;
+  width: 140px;
+  height: 2.2rem;
+  padding: 8px 5px;
 `;
 
 const MonthFillter = styled.select`
-  width: 120px;
-  height: 2rem;
+  font-size: 1.2em;
+  width: 140px;
+  height: 2.2rem;
+  padding: 8px 5px;
 `;
 
 const BookAllWrap = styled.div`
@@ -39,9 +46,13 @@ const BookAllWrap = styled.div`
 
 const BookAll = styled(Button)`
   width: 100%;
-  height: 2rem;
+  font-size: 1.4rem;
+  height: 3.5rem;
   margin: 0 1px;
-  background-color: ${palette.violet[9]};
+  background-color: ${palette.gray[5]};
+  &:hover {
+    background-color: ${palette.gray[7]};
+  }
 `;
 
 // 기본으로 가져온 도서관 리스트에서 '수원시립'삭제

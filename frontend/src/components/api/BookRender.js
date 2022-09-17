@@ -10,7 +10,7 @@ import { LibraryList } from "../../lib/documents/LibraryList";
 const API_KEY = process.env.REACT_APP_DATA4LIBRARY_KEY;
 
 const DisplayBooks = styled.ul`
-  border: 1px solid green;
+  padding: 4rem 0;
   display: grid;
   justify-content: center;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
