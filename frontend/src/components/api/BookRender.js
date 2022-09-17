@@ -4,6 +4,7 @@ import palette from "../../lib/styles/palette";
 import Pagination from "../posts/Pagination";
 import BookFillter from "../fillter/BookFillter";
 import Loader from "../common/Loader";
+import { LibraryList } from "../../lib/documents/LibraryList";
 // import XMLParser from "react-xml-parser";
 
 const API_KEY = process.env.REACT_APP_DATA4LIBRARY_KEY;
@@ -66,20 +67,54 @@ function BookRender() {
     const offSet = (page - 1) * limit;
     // pagination 코드 end
 
-    // fillter 코드 start
+    // filter 코드 start
+    //library code
+    const [libCode, setLibcode] = useState(0);
+    // Library FullName
+    const [forFindLoc, setForFindLoc] = useState("수원시립영통도서관");
+    // Library Name
     const [selectedLoc, setSelectedLoc] = useState("전체도서관");
+    // 찾고자하는 년도
     const [selectedYear, setSelectedYear] = useState(22);
+    // 찾고자하는 월
     const [selectedMon, setSelectedMon] = useState(9);
     // 나중에 date함수이용해서 현재월로 변경하기
-    // fillter 코드 end
+    // filter 코드 end
+
+    // 연동
+    // selectedLoc이 바뀌었을 때 forFindLoc에 해당 값 변경하기
+    useEffect(() => {
+      const check = () => {
+        if (selectedLoc !== "전체도서관") {
+          Object.keys(LibraryList).includes(selectedLoc)
+            ? setForFindLoc(selectedLoc)
+            : setForFindLoc(`수원시립${selectedLoc}`);
+          // 전체도서관이 아닐때 실행되는데, selectedLoc의 값이 LibraryList에 없으면 수원시립을 앞에 붙여서 forFindLoc에 저장.
+        }
+      };
+      check();
+    }, [selectedLoc]);
+
+    // forFindLoc이 변경되엇을 때 해당 도서관이름에 맞는 도서관 코드 변경
+    useEffect(() => {
+      setLibcode(LibraryList[forFindLoc]);
+    }, [forFindLoc]);
+
+    // 전체도서관을 제외하고. selectedLoc에 들어간 값들이 LibraryList에 있다면 해당 값의 value를 찾아서 입력하면?
 
     useEffect(() => {
       const getData = async () => {
         setLoading(true);
         try {
           const res = await fetch(
-            `http://data4library.kr/api/loanItemSrch?authKey=${API_KEY}&startDt=20${selectedYear}-0${selectedMon}-01&endDt=20${selectedYear}-0${selectedMon}-28&region=31&dtl_region=31012;31014;31011;31013&format=json`
+            // `http://data4library.kr/api/itemSrch?libCode=${libCode}&authKey=${API_KEY}&startDt=20${selectedYear}-0${selectedMon}-01&endDt=28${selectedYear}-0${selectedMon}-28&format=json`
+            // `http://data4library.kr/api/extends/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYear}-0${selectedMon}-01&endDt=28${selectedYear}-0${selectedMon}-28&format=json`
+            `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYear}-0${
+              selectedMon - 2
+            }-01&endDt=20${selectedYear}-0${selectedMon}-30&kdc=0&format=json
+            `
           );
+          // region:
 
           res
             .json()
@@ -96,7 +131,7 @@ function BookRender() {
     }, [selectedLoc, selectedYear, selectedMon]);
 
     if (loading) {
-      console.log("isLoading");
+      // console.log("isLoading");
       return <Loader></Loader>;
     }
 
@@ -104,6 +139,7 @@ function BookRender() {
       <>
         <BookFillter
           selectedLoc={selectedLoc}
+          setSelectedLoc={setSelectedLoc}
           selectedYear={selectedYear}
           setSelectedYear={setSelectedYear}
           selectedMon={selectedMon}
@@ -113,7 +149,7 @@ function BookRender() {
           {data.response.docs?.slice(offSet, offSet + limit).map((v) => {
             const DB = v.doc;
             return (
-              <li key={`${DB.isbn13} ${DB.addition_symbol}`}>
+              <li key={`${DB.no}`}>
                 <h2>{DB.no}</h2>
                 <BookImage
                   style={{ backgroundImage: `url(${DB.bookImageURL})` }}
