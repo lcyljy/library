@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import palette from "../../lib/styles/palette";
 import Button from "../common/Button";
+import { LibraryList } from "../../lib/documents/LibraryList";
 
 const FillterContainer = styled.div`
   width: 100%;
@@ -43,15 +44,31 @@ const BookAll = styled(Button)`
   background-color: ${palette.violet[9]};
 `;
 
-const LocOptions = [];
-const YearOptions = [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22];
+// 기본으로 가져온 도서관 리스트에서 '수원시립'삭제
+const LocOptions = Object.keys(LibraryList).map((el) =>
+  el.replace(/수원시립/g, "")
+);
+// console.log(LocOptions);
+
+// 년도와 월은 개수가 적으므로 일단 하드코딩..
+const YearOptions = [18, 19, 20, 21, 22];
 const MonOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+// 도서관명이 정해지면
 
 function BookFillter(props) {
   return (
     <FillterContainer>
       <FillterAllWrap>
-        <LocateFillter>
+        <LocateFillter
+          value={props.selectedLoc}
+          onChange={(e) => props.setSelectedLoc(e.target.value)}
+        >
+          {LocOptions.map((v) => (
+            <option key={`Location${v}`} value={v}>
+              {v}
+            </option>
+          ))}
           <option>{props.selectedLoc}</option>
         </LocateFillter>
         <YearFillter
