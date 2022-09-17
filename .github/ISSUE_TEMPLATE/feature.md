@@ -4,6 +4,7 @@ about: 새로운 기능 추가 또는 기능관련
 title: "[feat]"
 labels: feature
 assignees: lcyljy
+
 ---
 
 ## 요구 사항

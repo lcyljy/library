@@ -2,8 +2,9 @@
 name: Bug
 about: 버그 관련
 title: "[BUG]"
-labels: bug
+labels: bug, refactoring
 assignees: lcyljy
+
 ---
 
 ## 버그 설명
