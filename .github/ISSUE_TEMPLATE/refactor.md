@@ -4,11 +4,10 @@ about: 리팩토링
 title: "[Refactor]"
 labels: refactoring
 assignees: lcyljy
-
 ---
 
-요구사항
+## 요구 사항
 
-해결방안
+## 해결 방안
 
-예상 소요 시간
+## 예상 소요 시간
