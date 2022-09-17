@@ -107,11 +107,14 @@ function BookRender() {
         setLoading(true);
         try {
           const res = await fetch(
-            // `http://data4library.kr/api/itemSrch?libCode=${libCode}&authKey=${API_KEY}&startDt=20${selectedYear}-0${selectedMon}-01&endDt=28${selectedYear}-0${selectedMon}-28&format=json`
-            // `http://data4library.kr/api/extends/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYear}-0${selectedMon}-01&endDt=28${selectedYear}-0${selectedMon}-28&format=json`
-            `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYear}-0${
-              selectedMon - 2
-            }-01&endDt=20${selectedYear}-0${selectedMon}-30&kdc=0&format=json
+            selectedLoc === "전체도서관"
+              ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&dtl_region =31010&startDt=20${selectedYear}-0${
+                  selectedMon - 2
+                }-01&endDt=20${selectedYear}-0${selectedMon}-30&format=json
+          `
+              : `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYear}-0${
+                  selectedMon - 2
+                }-01&endDt=20${selectedYear}-0${selectedMon}-30&format=json
             `
           );
           // region:
