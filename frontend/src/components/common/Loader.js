@@ -23,7 +23,7 @@ const LoadingText = styled.div`
   text-align: center;
 `;
 function Loader() {
-  console.log("loading");
+  // console.log("loading");
   return (
     <APILoader>
       <LoadingText>
