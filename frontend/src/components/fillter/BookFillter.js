@@ -83,7 +83,6 @@ const MonOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const GenreOptions = ["일반도서", "어린이도서", "주제별도서"];
 
 const KDCList = KDC.contents.categoryList;
-console.log(KDCList);
 
 function BookFillter(props) {
   const toggleSwitchHandler = (e) => {
@@ -101,45 +100,25 @@ function BookFillter(props) {
           defaultValue={props.selectedLoc}
           onChange={(e) => props.setSelectedLoc(e.target.value)}
         >
-          <option value='전체도서관' key='all'>
-            전체도서관
-          </option>
+          <option key='all'>전체도서관</option>
           {LocOptions.map((v) => (
-            <option key={`Location${v}`} value={v}>
-              {v}
-            </option>
+            <option key={`Location${v}`}>{v}</option>
           ))}
         </LocateFillter>
-
         <YearFillter
           defaultValue={props.selectedYear}
           onChange={(e) => props.setSelectedYear(e.target.value)}
         >
-          {props.selectedYear === "2022년" ? (
-            <option key='2022년' value='2022년'>
-              2022년
-            </option>
-          ) : null}
-          {YearOptions.map((v) => (
-            <option key={`year20${v}`} value={`20${v}년`}>
-              20{v}년
-            </option>
+          {YearOptions.map((v, i) => (
+            <option key={i}>20{v}년</option>
           ))}
-          <option> 2022년</option>
         </YearFillter>
         <MonthFillter
           defaultValue={props.selectedMon}
           onChange={(e) => props.setSelectedMon(e.target.value)}
         >
-          {props.selectedMon === "9월" ? (
-            <option key={`mon9월`} value='9월'>
-              9월
-            </option>
-          ) : null}
           {MonOptions?.map((v, i) => (
-            <option key={`mon${i}`} value={`${v}월`}>
-              {v}월
-            </option>
+            <option key={i}>{v}월</option>
           ))}
         </MonthFillter>
       </FillterAllWrap>
@@ -149,7 +128,7 @@ function BookFillter(props) {
             onClick={toggleSwitchHandler}
             key={i}
             value={v}
-            className={`${v} ${props.selectedGenreIndex === i ? "active" : ""}`}
+            className={`${props.selectedGenreIndex === i ? "active" : ""}`}
           >
             {v}
           </BookAll>
@@ -158,12 +137,10 @@ function BookFillter(props) {
       {props.selectedGenre === GenreOptions[2] ? (
         <SubjectBook>
           <SubjectBookSelect
-            defaultValue={props.KDC !== "전체" ? props.KDC : "전체"}
+            defaultValue={props.KDC}
             onChange={(e) => props.setKDC(e.target.value)}
           >
-            <option value='전체' key='all'>
-              전체
-            </option>
+            <option key='all'>전체</option>
             {KDCList?.map((v, i) => (
               <option key={i}>{v.keyword}</option>
             ))}

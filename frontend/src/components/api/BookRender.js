@@ -6,6 +6,7 @@ import BookFillter from "../fillter/BookFillter";
 import Loader from "../common/Loader";
 import { LibraryList } from "../../lib/documents/LibraryList";
 import { KDC } from "../../lib/documents/KDC";
+import no_image from "../../lib/img/book_img/no-image-MO.jpg";
 // import XMLParser from "react-xml-parser";
 
 const API_KEY = process.env.REACT_APP_DATA4LIBRARY_KEY;
@@ -22,6 +23,13 @@ const DisplayBooks = styled.ul`
     text-decoration: none;
     padding: 4px;
     justify-content: center;
+  }
+  p {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: 1.3;
+    -webkit-line-clamp: 1;
   }
 `;
 
@@ -89,30 +97,22 @@ function BookRender() {
     const [selectedGenre, setSelectedGenre] = useState("일반도서");
     // 분류별 도서 index
     const [selectedGenreIndex, setSelectedGenreIndex] = useState(0);
-
     // KDC 분류별 도서
-
     const [KDC, setKDC] = useState("전체");
-
     // filter 코드 end
 
     // 연동
-
     useEffect(() => {
-      console.log(selectedYear);
       let tempYear = selectedYear;
-      console.log(tempYear.slice(2, 4));
       setSelectedYearIndex(tempYear.slice(2, 4));
     }, [selectedYear]);
 
     useEffect(() => {
-      console.log(selectedMon);
       setSelectedMonIndex(selectedMon.charAt(0));
     }, [selectedMon]);
 
     // selectedLoc이 바뀌었을 때 forFindLoc에 해당 값 변경하기
     useEffect(() => {
-      console.log(selectedLoc);
       if (selectedLoc !== "전체도서관") {
         Object.keys(LibraryList).includes(selectedLoc)
           ? setForFindLoc(selectedLoc)
@@ -160,8 +160,6 @@ function BookRender() {
                 }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
             `
           );
-          // region:
-
           res
             .json()
             .then((data) => setData(data))
@@ -204,14 +202,17 @@ function BookRender() {
               <li key={`${DB.no}`}>
                 <h2>{DB.no}</h2>
                 <BookImage
-                  style={{ backgroundImage: `url(${DB.bookImageURL})` }}
+                  style={{
+                    backgroundImage: `url(${
+                      DB.bookImageURL ? DB.bookImageURL : no_image
+                    })`,
+                  }}
                 ></BookImage>
-                <div>
-                  <p>
-                    {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
-                  </p>
-                  {DB.authors}
-                </div>
+
+                <p>
+                  {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
+                </p>
+                <p>{DB.authors}</p>
               </li>
             );
           })}
