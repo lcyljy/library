@@ -10,7 +10,7 @@ import { LibraryList } from "../../lib/documents/LibraryList";
 const API_KEY = process.env.REACT_APP_DATA4LIBRARY_KEY;
 
 const DisplayBooks = styled.ul`
-  padding: 4rem 0;
+  padding: 2rem 0;
   display: grid;
   justify-content: center;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -80,7 +80,9 @@ function BookRender() {
     const [selectedMon, setSelectedMon] = useState(9);
     // 나중에 date함수이용해서 현재월로 변경하기
 
+    // 분류별 도서
     const [selectedGenre, setSelectedGenre] = useState("일반도서");
+    // 분류별 도서 index
     const [selectedGenreIndex, setSelectedGenreIndex] = useState(0);
     // filter 코드 end
 
