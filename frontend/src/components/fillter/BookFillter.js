@@ -1,8 +1,9 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import palette from "../../lib/styles/palette";
 import Button from "../common/Button";
 import { LibraryList } from "../../lib/documents/LibraryList";
+import { useState } from "react";
 
 const FillterContainer = styled.div`
   width: 100%;
@@ -50,6 +51,9 @@ const BookAll = styled(Button)`
   height: 3.5rem;
   margin: 0 1px;
   background-color: ${palette.gray[5]};
+  &.active {
+    background-color: ${palette.violet[8]};
+  }
   &:hover {
     background-color: ${palette.gray[7]};
   }
@@ -64,10 +68,23 @@ const LocOptions = Object.keys(LibraryList).map((el) =>
 // 년도와 월은 개수가 적으므로 일단 하드코딩..
 const YearOptions = [18, 19, 20, 21, 22];
 const MonOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-// 도서관명이 정해지면
+const GenreOptions = ["일반도서", "어린이도서", "주제별도서"];
 
 function BookFillter(props) {
+  const toggleSwitchHandler = (e) => {
+    // props.setSelectedGenre(e => e.target.value)
+    // e.target.value에 따라 해당 값의 index를 연동시켜보고 싶었는데 실패.
+    // 하드코딩한면이 없잖아 있어서 나중에 리팩토링 필요
+    if (e.target.value === "일반도서") {
+      props.setSelectedGenreIndex(0);
+    } else if (e.target.value === "어린이도서") {
+      props.setSelectedGenreIndex(1);
+    } else {
+      props.setSelectedGenreIndex(2);
+    }
+
+    props.setSelectedGenre(e.target.value);
+  };
   return (
     <FillterContainer>
       <FillterAllWrap>
@@ -100,12 +117,19 @@ function BookFillter(props) {
         </MonthFillter>
       </FillterAllWrap>
       <BookAllWrap>
-        <BookAll>일반도서</BookAll>
-        <BookAll>어린이도서</BookAll>
-        <BookAll>주제별도서</BookAll>
+        {GenreOptions.map((v, i) => (
+          <BookAll
+            onClick={toggleSwitchHandler}
+            key={i}
+            value={v}
+            className={`${v} ${props.selectedGenreIndex === i ? "active" : ""}`}
+          >
+            {v}
+          </BookAll>
+        ))}
       </BookAllWrap>
     </FillterContainer>
   );
 }
-
+// const [selectedGenre, setSelectedGenre] = useState("normalBook")
 export default BookFillter;

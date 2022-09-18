@@ -79,6 +79,9 @@ function BookRender() {
     // 찾고자하는 월
     const [selectedMon, setSelectedMon] = useState(9);
     // 나중에 date함수이용해서 현재월로 변경하기
+
+    const [selectedGenre, setSelectedGenre] = useState("일반도서");
+    const [selectedGenreIndex, setSelectedGenreIndex] = useState(0);
     // filter 코드 end
 
     // 연동
@@ -99,6 +102,10 @@ function BookRender() {
     useEffect(() => {
       setLibcode(LibraryList[forFindLoc]);
     }, [forFindLoc]);
+
+    useEffect(() => {
+      console.log(selectedGenre);
+    }, [selectedGenre]);
 
     // 전체도서관을 제외하고. selectedLoc에 들어간 값들이 LibraryList에 있다면 해당 값의 value를 찾아서 입력하면?
 
@@ -141,6 +148,10 @@ function BookRender() {
     return (
       <>
         <BookFillter
+          selectedGenreIndex={selectedGenreIndex}
+          setSelectedGenreIndex={setSelectedGenreIndex}
+          selectedGenre={selectedGenre}
+          setSelectedGenre={setSelectedGenre}
           selectedLoc={selectedLoc}
           setSelectedLoc={setSelectedLoc}
           selectedYear={selectedYear}
