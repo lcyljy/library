@@ -78,9 +78,11 @@ function BookRender() {
     // Library Name
     const [selectedLoc, setSelectedLoc] = useState("전체도서관");
     // 찾고자하는 년도
-    const [selectedYear, setSelectedYear] = useState(22);
+    const [selectedYear, setSelectedYear] = useState("2022년");
+    const [selectedYearIndex, setSelectedYearIndex] = useState(22);
     // 찾고자하는 월
-    const [selectedMon, setSelectedMon] = useState(9);
+    const [selectedMon, setSelectedMon] = useState("9월");
+    const [selectedMonIndex, setSelectedMonIndex] = useState(9);
     // 나중에 date함수이용해서 현재월로 변경하기
 
     // 분류별 도서
@@ -95,29 +97,40 @@ function BookRender() {
     // filter 코드 end
 
     // 연동
+
+    useEffect(() => {
+      console.log(selectedYear);
+      let tempYear = selectedYear;
+      console.log(tempYear.slice(2, 4));
+      setSelectedYearIndex(tempYear.slice(2, 4));
+    }, [selectedYear]);
+
+    useEffect(() => {
+      console.log(selectedMon);
+      setSelectedMonIndex(selectedMon.charAt(0));
+    }, [selectedMon]);
+
     // selectedLoc이 바뀌었을 때 forFindLoc에 해당 값 변경하기
     useEffect(() => {
-      const check = () => {
-        if (selectedLoc !== "전체도서관") {
-          Object.keys(LibraryList).includes(selectedLoc)
-            ? setForFindLoc(selectedLoc)
-            : setForFindLoc(`수원시립${selectedLoc}`);
-          // 전체도서관이 아닐때 실행되는데, selectedLoc의 값이 LibraryList에 없으면 수원시립을 앞에 붙여서 forFindLoc에 저장.
-        }
-      };
-      check();
+      console.log(selectedLoc);
+      if (selectedLoc !== "전체도서관") {
+        Object.keys(LibraryList).includes(selectedLoc)
+          ? setForFindLoc(selectedLoc)
+          : setForFindLoc(`수원시립${selectedLoc}`);
+        // 전체도서관이 아닐때 실행되는데, selectedLoc의 값이 LibraryList에 없으면 수원시립을 앞에 붙여서 forFindLoc에 저장.
+      } else setForFindLoc("전체도서관");
     }, [selectedLoc]);
 
     // forFindLoc이 변경되엇을 때 해당 도서관이름에 맞는 도서관 코드 변경
     useEffect(() => {
-      setLibcode(LibraryList[forFindLoc]);
+      forFindLoc === "전체도서관"
+        ? setLibcode(0)
+        : setLibcode(LibraryList[forFindLoc]);
     }, [forFindLoc]);
 
-    useEffect(() => {
-      console.log(selectedGenre);
-    }, [selectedGenre]);
-
+    // 성인코드
     const adultCode = `&addCode=0;1;2;4;9`;
+    // 어린이코드
     const childCode = `&addCode=4;5;6;7`;
     const KDCIndexCheck =
       KDCListArr.indexOf(KDC) !== -1
@@ -137,14 +150,14 @@ function BookRender() {
         setLoading(true);
         try {
           const res = await fetch(
-            selectedLoc === "전체도서관"
-              ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&startDt=20${selectedYear}-0${
-                  selectedMon - 2
-                }-01&endDt=20${selectedYear}-0${selectedMon}-30${GenreCheck}&format=json
+            libCode === 0
+              ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&startDt=20${selectedYearIndex}-0${
+                  selectedMonIndex - 2
+                }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
           `
-              : `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYear}-0${
-                  selectedMon - 2
-                }-01&endDt=20${selectedYear}-0${selectedMon}-30${GenreCheck}&format=json
+              : `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYearIndex}-0${
+                  selectedMonIndex - 2
+                }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
             `
           );
           // region:
