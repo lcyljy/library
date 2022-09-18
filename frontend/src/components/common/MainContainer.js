@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+import Responsive from "./Responsive";
 const DisplayContainer = styled.div`
   width: 70%;
   min-height: 80vh;
@@ -19,9 +19,11 @@ const ContentWrapper = styled.div`
 
 function MainContainer(props) {
   return (
-    <DisplayContainer>
-      <ContentWrapper>{props.children}</ContentWrapper>
-    </DisplayContainer>
+    <Responsive>
+      <DisplayContainer>
+        <ContentWrapper>{props.children}</ContentWrapper>
+      </DisplayContainer>
+    </Responsive>
   );
 }
 export default MainContainer;
