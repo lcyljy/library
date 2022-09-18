@@ -5,6 +5,7 @@ import Pagination from "../posts/Pagination";
 import BookFillter from "../fillter/BookFillter";
 import Loader from "../common/Loader";
 import { LibraryList } from "../../lib/documents/LibraryList";
+import { KDC } from "../../lib/documents/KDC";
 // import XMLParser from "react-xml-parser";
 
 const API_KEY = process.env.REACT_APP_DATA4LIBRARY_KEY;
@@ -55,6 +56,8 @@ const BookImage = styled.div.attrs({ type: "Image" })`
 `;
 
 function BookRender() {
+  const KDCList = KDC.contents.categoryList;
+  const KDCListArr = KDCList?.map((v) => v.keyword);
   const App = () => {
     // 데이터 가져오기
     const [data, setData] = useState({ response: {} });
@@ -84,6 +87,11 @@ function BookRender() {
     const [selectedGenre, setSelectedGenre] = useState("일반도서");
     // 분류별 도서 index
     const [selectedGenreIndex, setSelectedGenreIndex] = useState(0);
+
+    // KDC 분류별 도서
+
+    const [KDC, setKDC] = useState("전체");
+
     // filter 코드 end
 
     // 연동
@@ -109,7 +117,10 @@ function BookRender() {
       console.log(selectedGenre);
     }, [selectedGenre]);
 
-    // 전체도서관을 제외하고. selectedLoc에 들어간 값들이 LibraryList에 있다면 해당 값의 value를 찾아서 입력하면?
+    const KDCIndexCheck =
+      KDCListArr.indexOf(KDC) !== -1
+        ? `&addCode=0;1;2;3;9&kdc=${KDCListArr.indexOf(KDC)}`
+        : "";
 
     useEffect(() => {
       const getData = async () => {
@@ -119,11 +130,11 @@ function BookRender() {
             selectedLoc === "전체도서관"
               ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&dtl_region =31010&startDt=20${selectedYear}-0${
                   selectedMon - 2
-                }-01&endDt=20${selectedYear}-0${selectedMon}-30&format=json
+                }-01&endDt=20${selectedYear}-0${selectedMon}-30${KDCIndexCheck}&format=json
           `
               : `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYear}-0${
                   selectedMon - 2
-                }-01&endDt=20${selectedYear}-0${selectedMon}-30&format=json
+                }-01&endDt=20${selectedYear}-0${selectedMon}-30${KDCIndexCheck}&format=json
             `
           );
           // region:
@@ -140,7 +151,7 @@ function BookRender() {
       getData();
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedLoc, selectedYear, selectedMon]);
+    }, [selectedLoc, selectedYear, selectedMon, KDC]);
 
     if (loading) {
       // console.log("isLoading");
@@ -150,6 +161,8 @@ function BookRender() {
     return (
       <>
         <BookFillter
+          KDC={KDC}
+          setKDC={setKDC}
           selectedGenreIndex={selectedGenreIndex}
           setSelectedGenreIndex={setSelectedGenreIndex}
           selectedGenre={selectedGenre}

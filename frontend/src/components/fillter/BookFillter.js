@@ -139,9 +139,9 @@ function BookFillter(props) {
       </BookAllWrap>
       {props.selectedGenre === GenreOptions[2] ? (
         <SubjectBook>
-          <SubjectBookSelect>
-            <option defaultValue='전체' value='전체' key={`all`}>
-              전체
+          <SubjectBookSelect onChange={(e) => props.setKDC(e.target.value)}>
+            <option defaultValue='전체' value='전체' key='all'>
+              {props.KDC}
             </option>
             {KDCList?.map((v, i) => (
               <option key={i}>{v.keyword}</option>
