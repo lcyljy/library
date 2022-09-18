@@ -75,13 +75,9 @@ function BookFillter(props) {
     // props.setSelectedGenre(e => e.target.value)
     // e.target.value에 따라 해당 값의 index를 연동시켜보고 싶었는데 실패.
     // 하드코딩한면이 없잖아 있어서 나중에 리팩토링 필요
-    if (e.target.value === "일반도서") {
-      props.setSelectedGenreIndex(0);
-    } else if (e.target.value === "어린이도서") {
-      props.setSelectedGenreIndex(1);
-    } else {
-      props.setSelectedGenreIndex(2);
-    }
+    GenreOptions.map((v, i) =>
+      e.target.value === v ? props.setSelectedGenreIndex(i) : null
+    );
 
     props.setSelectedGenre(e.target.value);
   };
