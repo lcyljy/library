@@ -117,10 +117,20 @@ function BookRender() {
       console.log(selectedGenre);
     }, [selectedGenre]);
 
+    const adultCode = `&addCode=0;1;2;4;9`;
+    const childCode = `&addCode=4;5;6;7`;
     const KDCIndexCheck =
       KDCListArr.indexOf(KDC) !== -1
-        ? `&addCode=0;1;2;3;9&kdc=${KDCListArr.indexOf(KDC)}`
+        ? `${adultCode}&kdc=${KDCListArr.indexOf(KDC)}`
         : "";
+    const GenreCheck =
+      selectedGenreIndex !== 2
+        ? selectedGenreIndex === 0
+          ? `${adultCode}`
+          : `${childCode}`
+        : `${KDCIndexCheck}`;
+
+    // KDCIndex에 따라 API 호출 코드 변경
 
     useEffect(() => {
       const getData = async () => {
@@ -128,13 +138,13 @@ function BookRender() {
         try {
           const res = await fetch(
             selectedLoc === "전체도서관"
-              ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&dtl_region =31010&startDt=20${selectedYear}-0${
+              ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&startDt=20${selectedYear}-0${
                   selectedMon - 2
-                }-01&endDt=20${selectedYear}-0${selectedMon}-30${KDCIndexCheck}&format=json
+                }-01&endDt=20${selectedYear}-0${selectedMon}-30${GenreCheck}&format=json
           `
               : `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYear}-0${
                   selectedMon - 2
-                }-01&endDt=20${selectedYear}-0${selectedMon}-30${KDCIndexCheck}&format=json
+                }-01&endDt=20${selectedYear}-0${selectedMon}-30${GenreCheck}&format=json
             `
           );
           // region:
@@ -151,7 +161,7 @@ function BookRender() {
       getData();
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedLoc, selectedYear, selectedMon, KDC]);
+    }, [selectedLoc, selectedYear, selectedMon, KDC, selectedGenre]);
 
     if (loading) {
       // console.log("isLoading");
