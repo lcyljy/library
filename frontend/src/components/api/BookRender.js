@@ -8,6 +8,15 @@ import { LibraryList } from "../../lib/documents/LibraryList";
 import { KDC } from "../../lib/documents/KDC";
 import no_image from "../../lib/img/book_img/no-image-MO.jpg";
 // import XMLParser from "react-xml-parser";
+import DateFilter, {
+  month,
+  year,
+  day,
+  checkMonth,
+  checkDay,
+  startDt,
+  endDt,
+} from "../fillter/DateFilter";
 
 const API_KEY = process.env.REACT_APP_DATA4LIBRARY_KEY;
 
@@ -63,9 +72,11 @@ const BookImage = styled.div.attrs({ type: "Image" })`
   height: 180px;
 `;
 
-function BookRender() {
+function BookRender(props) {
   const KDCList = KDC.contents.categoryList;
   const KDCListArr = KDCList?.map((v) => v.keyword);
+  DateFilter();
+  console.log(checkDay, checkMonth, year);
   const App = () => {
     // 데이터 가져오기
     const [data, setData] = useState({ response: {} });
@@ -145,20 +156,43 @@ function BookRender() {
 
     // KDCIndex에 따라 API 호출 코드 변경
 
+    // 결과건수가 100이하이면, 마이너스 변수 증가.
+    // const [count, setCount] = useState(1);
+    // if (data.response.resultNum < 100) setCount(count + 1);
+    // 데이터를 불러와서 그 값을 확인한 다음 해당 값이 늘면 다시 가져와야되므로 re-rendering이 너무 많이 일어나서 불가능.
+    // 마찬가지로... class_no를 이용한다거나. additional_symbol에 따라 필터링하는 것도 불가능...
+
+    const popularAPI =
+      libCode === 0
+        ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&startDt=20${selectedYearIndex}-0${
+            selectedMonIndex - 2
+          }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
+`
+        : `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYearIndex}-0${
+            selectedMonIndex - 2
+          }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
+  `;
+    // 전체도서관을 찾을방법이 없어 임시로 영통도서관의 장서데이터를 불러옴.
+    const accessionAPI =
+      libCode === 0
+        ? `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=141061&startDt=${year}-0${
+            month - 1
+          }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json`
+        : `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=${libCode}&startDt=${year}-0${
+            month - 1
+          }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json`;
+    // const libAPI = "";
+
+    console.log(data.response.resultNum); // 페이지 크기가 없을 경우 페이지당 100개
+    // console.log(data.response.docs?.map((v) => v.doc.addition_symbol));
+    // console.log(data.response.docs?.map((v) => v.doc.class_no.charAt(0)));
+    console.log(props.title === "신착도서");
     useEffect(() => {
       const getData = async () => {
         setLoading(true);
         try {
           const res = await fetch(
-            libCode === 0
-              ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&startDt=20${selectedYearIndex}-0${
-                  selectedMonIndex - 2
-                }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
-          `
-              : `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYearIndex}-0${
-                  selectedMonIndex - 2
-                }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
-            `
+            props.title === "인기도서" ? popularAPI : accessionAPI
           );
           res
             .json()
@@ -198,8 +232,9 @@ function BookRender() {
         <DisplayBooks>
           {data.response.docs?.slice(offSet, offSet + limit).map((v) => {
             const DB = v.doc;
+
             return (
-              <li key={`${DB.no}`}>
+              <li key={`${DB.isbn13} ${DB.vol}`}>
                 <h2>{DB.no}</h2>
                 <BookImage
                   style={{
