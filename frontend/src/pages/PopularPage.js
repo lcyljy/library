@@ -1,11 +1,11 @@
 import React from "react";
+import SiteRootNavContainer from "../container/common/SiteRootNavContainer";
 import BookListContainer from "../container/common/BookListContainer";
-
-import SiteRootNav from "../components/common/SiteRootNav";
 function PopularPage() {
+  const title = "인기도서";
   return (
     <>
-      <SiteRootNav></SiteRootNav>
+      <SiteRootNavContainer title={title}></SiteRootNavContainer>
       <BookListContainer></BookListContainer>
     </>
   );

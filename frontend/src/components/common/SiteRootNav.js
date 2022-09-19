@@ -25,11 +25,11 @@ const Inner = styled.div`
   margin: 0 auto;
   display: inline-block;
 `;
-function SiteRootNav() {
+function SiteRootNav(props) {
   return (
     <TitleSub>
       <Inner>
-        <h2> 경로 </h2>
+        <h2> {props.navTitle} </h2>
         <ul>
           <li></li>
         </ul>
