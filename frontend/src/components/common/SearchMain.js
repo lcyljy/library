@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Responsive from "./Responsive";
 import background from "../../lib/img/main/img_main_visual.png";
 import { Link } from "react-router-dom";
+import palette from "../../lib/styles/palette";
 const Inner = styled(Responsive)`
   background-image: url(${background});
   background-repeat: no-repeat;
@@ -22,11 +23,15 @@ const Links = styled.div`
   display: flex;
 
   .list {
+    font-size: 1.2em;
     padding: 25px 0 0;
     align-items: center;
     text-align: center;
     margin: 0 auto;
     color: white;
+    &:hover {
+      color: ${palette.orange[7]};
+    }
   }
 `;
 
