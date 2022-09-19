@@ -112,24 +112,26 @@ function MenuBar() {
               <GroupFirst>
                 <GroupMenu to='/'>자료탐색</GroupMenu>
                 <br />
-                <GroupSideMenu to='/'>- 카테고리분류</GroupSideMenu>
+                <GroupSideMenu to='/categorySearch'>
+                  - 카테고리분류
+                </GroupSideMenu>
                 <br />
-                <GroupSideMenu to='/'>- 한국십진분류</GroupSideMenu>
+                <GroupSideMenu to='/kdcSearch'>- 한국십진분류</GroupSideMenu>
               </GroupFirst>
               <Group>
-                <GroupMenu to='/'>인기도서</GroupMenu>
+                <GroupMenu to='/discovery/popularBook'>인기도서</GroupMenu>
                 <br />
-                <GroupMenu to='/'>신착도서</GroupMenu>
+                <GroupMenu to='/discovery/accessionBook'>신착도서</GroupMenu>
                 <br />
-                <GroupMenu to='/'>추천도서</GroupMenu>
+                <GroupMenu to='/discovery/libBook'>추천도서</GroupMenu>
                 <br />
                 <GroupMenu to='/'>전자도서관</GroupMenu>
                 <br />
               </Group>
               <Group>
-                <GroupMenu to='/'>희망도서신청</GroupMenu>
+                <GroupMenu to='/baroLoan'>희망도서신청</GroupMenu>
                 <br />
-                <GroupMenu to='/'>지역도서관 통합검색</GroupMenu>
+                <GroupMenu to='/localSearch'>지역도서관 통합검색</GroupMenu>
                 <br />
                 <GroupMenu to='/'>이용안내</GroupMenu>
                 <br />
