@@ -36,6 +36,18 @@ const palette = {
     "#6741d9",
     "#5f3dc4",
   ],
+  orange: [
+    "#fff4e6",
+    "#ffe8cc",
+    "#ffd8a8",
+    "#ffc078",
+    "#ffa94d",
+    "#ff922b",
+    "#fd7e14",
+    "#f76707",
+    "#e8590c",
+    "#d9480f",
+  ],
 };
 
 export default palette;
