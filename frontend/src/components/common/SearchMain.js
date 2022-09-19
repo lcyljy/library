@@ -46,12 +46,12 @@ function SearchMain() {
   ];
 
   const linkList = [
-    "popularBook",
-    "accessionBook",
-    "libBook",
+    "/discovery/popularBook",
+    "/discovery/accessionBook",
+    "/discovery/libBook",
     "/",
-    "baroLoan",
-    "localSearch",
+    "/baroLoan",
+    "/localSearch",
   ];
   const imgSrc = [
     "ico_main_link_03",
@@ -62,7 +62,7 @@ function SearchMain() {
     "ico_main_link_11",
   ];
   const menuListRender = menuList.map((name, i) => (
-    <Link to={`/${linkList[i]}`} className='list' key={i}>
+    <Link to={linkList[i]} className='list' key={i}>
       <img
         src={require(`../../lib/img/main_icon/${imgSrc[i]}.png`)}
         alt={`ico_main_link_4${imgSrc[i]}`}
