@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import PopularPage from "./PopularPage";
 import AccessionBookPage from "./AccessionBookPage";
 import LibrarianBookPage from ".//LibrarianBookPage";
-import SiteRootNavContainer from "../container/common/SiteRootNavContainer";
 
 function DiscoveryPage() {
   return (
