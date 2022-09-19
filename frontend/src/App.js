@@ -6,6 +6,7 @@ import LocalSearchPage from "./pages/LocalSearchPage";
 import BaroLoanPage from "./pages/BaroLoanPage";
 import DiscoveryPage from "./pages/DiscoveryPage";
 import HeaderNavContainer from "./container/common/HeaderNavContainer";
+import KdcSearchPage from "./pages/KdcSearchPage";
 import Footer from "./components/common/Footer";
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/baroLoan' element={<BaroLoanPage />}></Route>
         <Route path='/localSearch' element={<LocalSearchPage />}></Route>
         <Route path='/categorySearch' element={<CategorySearch />}></Route>
+        <Route path='/kdcSearch' element={<KdcSearchPage />}></Route>
       </Routes>
       <Footer></Footer>
     </>
