@@ -1,12 +1,11 @@
 import React from "react";
 import BookListContainer from "../container/common/BookListContainer";
-import HeaderNavContainer from "../container/common/HeaderNavContainer";
-import SearchMain from "../components/common/SearchMain";
+
+import SiteRootNav from "../components/common/SiteRootNav";
 function PopularPage() {
   return (
     <>
-      <HeaderNavContainer></HeaderNavContainer>
-      <SearchMain></SearchMain>
+      <SiteRootNav></SiteRootNav>
       <BookListContainer></BookListContainer>
     </>
   );
