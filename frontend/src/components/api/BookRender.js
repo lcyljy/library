@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import palette from "../../lib/styles/palette";
 import Pagination from "../posts/Pagination";
@@ -17,6 +17,7 @@ import DateFilter, {
   startDt,
   endDt,
 } from "../fillter/DateFilter";
+import { useLocation } from "react-router-dom";
 
 const API_KEY = process.env.REACT_APP_DATA4LIBRARY_KEY;
 
@@ -90,7 +91,7 @@ function BookRender(props) {
     // pagination 코드 end
 
     // filter 코드 start
-    //library code
+    /**library code*/
     const [libCode, setLibcode] = useState(0);
     // Library FullName
     const [forFindLoc, setForFindLoc] = useState("수원시립영통도서관");
@@ -111,6 +112,9 @@ function BookRender(props) {
     // KDC 분류별 도서
     const [KDC, setKDC] = useState("전체");
     // filter 코드 end
+
+    // page 유무
+    const [pageTitle, setPageTitle] = useState("인기도서");
 
     // 연동
     useEffect(() => {
@@ -162,8 +166,15 @@ function BookRender(props) {
     // 데이터를 불러와서 그 값을 확인한 다음 해당 값이 늘면 다시 가져와야되므로 re-rendering이 너무 많이 일어나서 불가능.
     // 마찬가지로... class_no를 이용한다거나. additional_symbol에 따라 필터링하는 것도 불가능...
 
-    const popularAPI =
-      libCode === 0
+    let location = useLocation();
+    useEffect(() => {
+      setPageTitle(props.title);
+      console.log(location.pathname);
+      console.log(props.title);
+    }, [location.pathname]);
+
+    const popularAPI = useMemo(() => {
+      return libCode === 0
         ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&startDt=20${selectedYearIndex}-0${
             selectedMonIndex - 2
           }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
@@ -172,28 +183,31 @@ function BookRender(props) {
             selectedMonIndex - 2
           }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
   `;
+    }, [selectedYearIndex, selectedMonIndex, GenreCheck, libCode]);
     // 전체도서관을 찾을방법이 없어 임시로 영통도서관의 장서데이터를 불러옴.
-    const accessionAPI =
-      libCode === 0
+    const accessionAPI = useMemo(() => {
+      return libCode === 0
         ? `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=141061&startDt=${year}-0${
             month - 1
-          }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json`
+          }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json&pageNo=1&pageSize=500`
         : `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=${libCode}&startDt=${year}-0${
             month - 1
-          }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json`;
+          }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json&pageNo=1&pageSize=500`;
+    }, [libCode]);
     // const libAPI = "";
 
-    console.log(data.response.resultNum); // 페이지 크기가 없을 경우 페이지당 100개
+    // console.log(data.response.resultNum); // 페이지 크기가 없을 경우 페이지당 100개
     // console.log(data.response.docs?.map((v) => v.doc.addition_symbol));
     // console.log(data.response.docs?.map((v) => v.doc.class_no.charAt(0)));
-    console.log(props.title === "신착도서");
+
     useEffect(() => {
-      const getData = async () => {
+      (async () => {
         setLoading(true);
         try {
-          const res = await fetch(
-            props.title === "인기도서" ? popularAPI : accessionAPI
-          );
+          let res =
+            pageTitle === "신착도서"
+              ? await fetch(accessionAPI)
+              : await fetch(popularAPI);
           res
             .json()
             .then((data) => setData(data))
@@ -202,11 +216,11 @@ function BookRender(props) {
           console.log(`${e} error가 발생했습니다.`);
           setLoading(false);
         }
-      };
-      getData();
+      })();
 
+      console.log(props.title, pageTitle);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedLoc, selectedYear, selectedMon, KDC, selectedGenre]);
+    }, [popularAPI, accessionAPI]);
 
     if (loading) {
       // console.log("isLoading");
@@ -216,6 +230,7 @@ function BookRender(props) {
     return (
       <>
         <BookFillter
+          pageTitle={pageTitle}
           KDC={KDC}
           setKDC={setKDC}
           selectedGenreIndex={selectedGenreIndex}
@@ -230,31 +245,43 @@ function BookRender(props) {
           setSelectedMon={setSelectedMon}
         />
         <DisplayBooks>
-          {data.response.docs?.slice(offSet, offSet + limit).map((v) => {
-            const DB = v.doc;
+          {data.response.docs
+            ?.map((v) => v.doc)
+            .filter((v) =>
+              props.title === "신착도서" && KDC !== "전체"
+                ? KDCListArr.indexOf(KDC) === Number(v.class_no.charAt(0))
+                : v
+            )
+            .map((DB, i) => {
+              return (
+                <li key={`${DB.isbn13} ${DB.vol} ${i + 1}`}>
+                  <h2>{i + 1}</h2>
+                  <BookImage
+                    style={{
+                      backgroundImage: `url(${
+                        DB.bookImageURL ? DB.bookImageURL : no_image
+                      })`,
+                    }}
+                  ></BookImage>
 
-            return (
-              <li key={`${DB.isbn13} ${DB.vol}`}>
-                <h2>{DB.no}</h2>
-                <BookImage
-                  style={{
-                    backgroundImage: `url(${
-                      DB.bookImageURL ? DB.bookImageURL : no_image
-                    })`,
-                  }}
-                ></BookImage>
-
-                <p>
-                  {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
-                </p>
-                <p>{DB.authors}</p>
-              </li>
-            );
-          })}
+                  <p>
+                    {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
+                  </p>
+                  <p>{DB.authors}</p>
+                </li>
+              );
+            })
+            .slice(offSet, offSet + limit)}
         </DisplayBooks>
 
         <Pagination
-          total={data.response.docs?.length}
+          total={
+            data.response.docs?.filter((v) =>
+              props.title === "신착도서" && KDC !== "전체"
+                ? KDCListArr.indexOf(KDC) === Number(v.doc.class_no.charAt(0))
+                : v
+            ).length
+          }
           limit={limit}
           page={page}
           setPage={setPage}
