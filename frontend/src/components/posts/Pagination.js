@@ -45,7 +45,7 @@ function Pagination({ total, limit, page, setPage }) {
   // total: 전체 데이터,
   // limit: 한페이지에 보여줄 데이터 - bookRender에서 관리됨
   // page:
-  const numPages = Math.ceil(total / limit);
+  const numPages = Math.ceil(total / limit) < 6 ? Math.ceil(total / limit) : 5;
   const pageNumbers = [];
   for (let i = 1; i <= numPages; i++) {
     pageNumbers.push(i);
