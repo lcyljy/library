@@ -90,7 +90,7 @@ function BookRender(props) {
     // pagination 코드 end
 
     // filter 코드 start
-    //library code
+    /**library code*/
     const [libCode, setLibcode] = useState(0);
     // Library FullName
     const [forFindLoc, setForFindLoc] = useState("수원시립영통도서관");
@@ -177,15 +177,16 @@ function BookRender(props) {
       libCode === 0
         ? `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=141061&startDt=${year}-0${
             month - 1
-          }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json`
+          }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json&pageNo=1&pageSize=500`
         : `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=${libCode}&startDt=${year}-0${
             month - 1
-          }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json`;
+          }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json&pageNo=1&pageSize=500`;
     // const libAPI = "";
 
     console.log(data.response.resultNum); // 페이지 크기가 없을 경우 페이지당 100개
     // console.log(data.response.docs?.map((v) => v.doc.addition_symbol));
     // console.log(data.response.docs?.map((v) => v.doc.class_no.charAt(0)));
+
     console.log(props.title === "신착도서");
     useEffect(() => {
       const getData = async () => {
@@ -230,31 +231,43 @@ function BookRender(props) {
           setSelectedMon={setSelectedMon}
         />
         <DisplayBooks>
-          {data.response.docs?.slice(offSet, offSet + limit).map((v) => {
-            const DB = v.doc;
+          {data.response.docs
+            ?.map((v) => v.doc)
+            .filter((v) =>
+              props.title === "신착도서" && KDC !== "전체"
+                ? KDCListArr.indexOf(KDC) === Number(v.class_no.charAt(0))
+                : v
+            )
+            .map((DB, i) => {
+              return (
+                <li key={`${DB.isbn13} ${DB.vol} ${i + 1}`}>
+                  <h2>{i + 1}</h2>
+                  <BookImage
+                    style={{
+                      backgroundImage: `url(${
+                        DB.bookImageURL ? DB.bookImageURL : no_image
+                      })`,
+                    }}
+                  ></BookImage>
 
-            return (
-              <li key={`${DB.isbn13} ${DB.vol}`}>
-                <h2>{DB.no}</h2>
-                <BookImage
-                  style={{
-                    backgroundImage: `url(${
-                      DB.bookImageURL ? DB.bookImageURL : no_image
-                    })`,
-                  }}
-                ></BookImage>
-
-                <p>
-                  {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
-                </p>
-                <p>{DB.authors}</p>
-              </li>
-            );
-          })}
+                  <p>
+                    {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
+                  </p>
+                  <p>{DB.authors}</p>
+                </li>
+              );
+            })
+            .slice(offSet, offSet + limit)}
         </DisplayBooks>
 
         <Pagination
-          total={data.response.docs?.length}
+          total={
+            data.response.docs?.filter((v) =>
+              props.title === "신착도서" && KDC !== "전체"
+                ? KDCListArr.indexOf(KDC) === Number(v.doc.class_no.charAt(0))
+                : v
+            ).length
+          }
           limit={limit}
           page={page}
           setPage={setPage}
