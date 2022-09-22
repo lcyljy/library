@@ -105,22 +105,26 @@ function BookFillter(props) {
             <option key={`Location${v}`}>{v}</option>
           ))}
         </LocateFillter>
-        <YearFillter
-          defaultValue={props.selectedYear}
-          onChange={(e) => props.setSelectedYear(e.target.value)}
-        >
-          {YearOptions.map((v, i) => (
-            <option key={i}>20{v}년</option>
-          ))}
-        </YearFillter>
-        <MonthFillter
-          defaultValue={props.selectedMon}
-          onChange={(e) => props.setSelectedMon(e.target.value)}
-        >
-          {MonOptions?.map((v, i) => (
-            <option key={i}>{v}월</option>
-          ))}
-        </MonthFillter>
+        {props.pageTitle === "인기도서" ? (
+          <>
+            <YearFillter
+              defaultValue={props.selectedYear}
+              onChange={(e) => props.setSelectedYear(e.target.value)}
+            >
+              {YearOptions.map((v, i) => (
+                <option key={i}>20{v}년</option>
+              ))}
+            </YearFillter>
+            <MonthFillter
+              defaultValue={props.selectedMon}
+              onChange={(e) => props.setSelectedMon(e.target.value)}
+            >
+              {MonOptions?.map((v, i) => (
+                <option key={i}>{v}월</option>
+              ))}
+            </MonthFillter>{" "}
+          </>
+        ) : null}
       </FillterAllWrap>
       <BookAllWrap>
         {GenreOptions.map((v, i) => (

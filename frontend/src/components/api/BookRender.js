@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import palette from "../../lib/styles/palette";
 import Pagination from "../posts/Pagination";
@@ -8,6 +8,16 @@ import { LibraryList } from "../../lib/documents/LibraryList";
 import { KDC } from "../../lib/documents/KDC";
 import no_image from "../../lib/img/book_img/no-image-MO.jpg";
 // import XMLParser from "react-xml-parser";
+import DateFilter, {
+  month,
+  year,
+  day,
+  checkMonth,
+  checkDay,
+  startDt,
+  endDt,
+} from "../fillter/DateFilter";
+import { useLocation } from "react-router-dom";
 
 const API_KEY = process.env.REACT_APP_DATA4LIBRARY_KEY;
 
@@ -63,9 +73,11 @@ const BookImage = styled.div.attrs({ type: "Image" })`
   height: 180px;
 `;
 
-function BookRender() {
+function BookRender(props) {
   const KDCList = KDC.contents.categoryList;
   const KDCListArr = KDCList?.map((v) => v.keyword);
+  DateFilter();
+  console.log(checkDay, checkMonth, year);
   const App = () => {
     // 데이터 가져오기
     const [data, setData] = useState({ response: {} });
@@ -79,7 +91,7 @@ function BookRender() {
     // pagination 코드 end
 
     // filter 코드 start
-    //library code
+    /**library code*/
     const [libCode, setLibcode] = useState(0);
     // Library FullName
     const [forFindLoc, setForFindLoc] = useState("수원시립영통도서관");
@@ -100,6 +112,9 @@ function BookRender() {
     // KDC 분류별 도서
     const [KDC, setKDC] = useState("전체");
     // filter 코드 end
+
+    // page 유무
+    const [pageTitle, setPageTitle] = useState("인기도서");
 
     // 연동
     useEffect(() => {
@@ -132,10 +147,13 @@ function BookRender() {
     const adultCode = `&addCode=0;1;2;4;9`;
     // 어린이코드
     const childCode = `&addCode=4;5;6;7`;
+
+    // BookFilter로부터가져온 kdclist의 배열값이 -1이 아닐때만 동작.
     const KDCIndexCheck =
       KDCListArr.indexOf(KDC) !== -1
         ? `${adultCode}&kdc=${KDCListArr.indexOf(KDC)}`
         : "";
+
     const GenreCheck =
       selectedGenreIndex !== 2
         ? selectedGenreIndex === 0
@@ -145,21 +163,54 @@ function BookRender() {
 
     // KDCIndex에 따라 API 호출 코드 변경
 
+    // 결과건수가 100이하이면, 마이너스 변수 증가.
+    // const [count, setCount] = useState(1);
+    // if (data.response.resultNum < 100) setCount(count + 1);
+    // 데이터를 불러와서 그 값을 확인한 다음 해당 값이 늘면 다시 가져와야되므로 re-rendering이 너무 많이 일어나서 불가능.
+    // 마찬가지로... class_no를 이용한다거나. additional_symbol에 따라 필터링하는 것도 불가능...
+
+    let location = useLocation();
     useEffect(() => {
-      const getData = async () => {
+      setPageTitle(props.title);
+      console.log(location.pathname);
+      console.log(props.title);
+    }, [location.pathname]);
+
+    const popularAPI = useMemo(() => {
+      return libCode === 0
+        ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&startDt=20${selectedYearIndex}-0${
+            selectedMonIndex - 2
+          }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
+`
+        : `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYearIndex}-0${
+            selectedMonIndex - 2
+          }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
+  `;
+    }, [selectedYearIndex, selectedMonIndex, GenreCheck, libCode]);
+    // 전체도서관을 찾을방법이 없어 임시로 영통도서관의 장서데이터를 불러옴.
+    const accessionAPI = useMemo(() => {
+      return libCode === 0
+        ? `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=141061&startDt=${year}-0${
+            month - 1
+          }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json&pageNo=1&pageSize=500`
+        : `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=${libCode}&startDt=${year}-0${
+            month - 1
+          }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json&pageNo=1&pageSize=500`;
+    }, [libCode]);
+    // const libAPI = "";
+
+    // console.log(data.response.resultNum); // 페이지 크기가 없을 경우 페이지당 100개
+    // console.log(data.response.docs?.map((v) => v.doc.addition_symbol));
+    // console.log(data.response.docs?.map((v) => v.doc.class_no.charAt(0)));
+
+    useEffect(() => {
+      (async () => {
         setLoading(true);
         try {
-          const res = await fetch(
-            libCode === 0
-              ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&startDt=20${selectedYearIndex}-0${
-                  selectedMonIndex - 2
-                }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
-          `
-              : `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYearIndex}-0${
-                  selectedMonIndex - 2
-                }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
-            `
-          );
+          let res =
+            pageTitle === "신착도서"
+              ? await fetch(accessionAPI)
+              : await fetch(popularAPI);
           res
             .json()
             .then((data) => setData(data))
@@ -168,20 +219,21 @@ function BookRender() {
           console.log(`${e} error가 발생했습니다.`);
           setLoading(false);
         }
-      };
-      getData();
+      })();
 
+      console.log(props.title, pageTitle);
+      console.log(props.title, pageTitle);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedLoc, selectedYear, selectedMon, KDC, selectedGenre]);
+    }, [popularAPI, accessionAPI]);
 
     if (loading) {
       // console.log("isLoading");
       return <Loader></Loader>;
     }
-
     return (
       <>
         <BookFillter
+          pageTitle={pageTitle}
           KDC={KDC}
           setKDC={setKDC}
           selectedGenreIndex={selectedGenreIndex}
@@ -196,30 +248,75 @@ function BookRender() {
           setSelectedMon={setSelectedMon}
         />
         <DisplayBooks>
-          {data.response.docs?.slice(offSet, offSet + limit).map((v) => {
-            const DB = v.doc;
-            return (
-              <li key={`${DB.no}`}>
-                <h2>{DB.no}</h2>
-                <BookImage
-                  style={{
-                    backgroundImage: `url(${
-                      DB.bookImageURL ? DB.bookImageURL : no_image
-                    })`,
-                  }}
-                ></BookImage>
+          {data.response.docs
+            ?.map((v) => v.doc)
+            .filter((v) => {
+              if (pageTitle !== "인기도서") {
+                if (selectedGenreIndex === 0) {
+                  return (
+                    Number(v.addition_symbol.charAt(0)) ===
+                    (0 || 1 || 2 || 4 || 9)
+                  );
+                } else if (selectedGenreIndex === 1) {
+                  return (
+                    Number(v.addition_symbol.charAt(0)) === (4 || 5 || 6 || 7)
+                  );
+                } else {
+                  if (KDC !== "전체") {
+                    return (
+                      KDCListArr.indexOf(KDC) === Number(v.class_no.charAt(0))
+                    );
+                  } else return v;
+                }
+              } else return v;
+            })
+            .map((DB, i) => {
+              return (
+                <li key={`${DB.isbn13} ${DB.vol} ${i + 1}`}>
+                  <h2>{i + 1}</h2>
+                  <BookImage
+                    style={{
+                      backgroundImage: `url(${
+                        DB.bookImageURL ? DB.bookImageURL : no_image
+                      })`,
+                    }}
+                  ></BookImage>
 
-                <p>
-                  {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
-                </p>
-                <p>{DB.authors}</p>
-              </li>
-            );
-          })}
+                  <p>
+                    {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
+                  </p>
+                  <p>{DB.authors}</p>
+                </li>
+              );
+            })
+            .slice(offSet, offSet + limit)}
         </DisplayBooks>
 
         <Pagination
-          total={data.response.docs?.length}
+          total={
+            data.response.docs
+              ?.map((v) => v.doc)
+              .filter((v) => {
+                if (pageTitle !== "인기도서") {
+                  if (selectedGenreIndex === 0) {
+                    return (
+                      Number(v.addition_symbol.charAt(0)) ===
+                      (0 || 1 || 2 || 4 || 9)
+                    );
+                  } else if (selectedGenreIndex === 1) {
+                    return (
+                      Number(v.addition_symbol.charAt(0)) === (4 || 5 || 6 || 7)
+                    );
+                  } else {
+                    if (KDC !== "전체") {
+                      return (
+                        KDCListArr.indexOf(KDC) === Number(v.class_no.charAt(0))
+                      );
+                    } else return v;
+                  }
+                } else return v;
+              }).length
+          }
           limit={limit}
           page={page}
           setPage={setPage}

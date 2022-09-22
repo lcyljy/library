@@ -2,10 +2,10 @@ import React from "react";
 import BookRender from "../../components/api/BookRender";
 import MainContainer from "../../components/common/MainContainer";
 
-function BookListContainer() {
+function BookListContainer(props) {
   return (
     <MainContainer>
-      <BookRender></BookRender>
+      <BookRender title={props.title}></BookRender>
     </MainContainer>
   );
 }

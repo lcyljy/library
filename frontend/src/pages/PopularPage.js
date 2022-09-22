@@ -6,7 +6,7 @@ function PopularPage() {
   return (
     <>
       <SiteRootNavContainer title={title}></SiteRootNavContainer>
-      <BookListContainer></BookListContainer>
+      <BookListContainer title={title}></BookListContainer>
     </>
   );
 }
