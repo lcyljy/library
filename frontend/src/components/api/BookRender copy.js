@@ -219,7 +219,6 @@ function BookRender(props) {
       })();
 
       console.log(props.title, pageTitle);
-      console.log(props.title, pageTitle);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [popularAPI, accessionAPI]);
 
