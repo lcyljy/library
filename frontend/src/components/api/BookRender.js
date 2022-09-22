@@ -230,9 +230,6 @@ function BookRender(props) {
       // console.log("isLoading");
       return <Loader></Loader>;
     }
-    console.log(
-      data.response.docs?.map((v) => v.doc.addition_symbol.charAt(0))
-    );
     return (
       <>
         <BookFillter
@@ -253,28 +250,26 @@ function BookRender(props) {
         <DisplayBooks>
           {data.response.docs
             ?.map((v) => v.doc)
-            .filter(
-              (v) =>
-                pageTitle === "인기도서"
-                  ? // A삼항 pageTItle이 인기도서면
-                    v
-                  : // A삼항? 그대로 출력
-                  selectedGenreIndex === 2
-                  ? // A삼항: B삼항으로 일반도서/어린이도서/주제별도서 선택중 주제별도서 선택이면
-                    KDC !== "전체"
-                    ? //B 삼항 KDC가 전체가 아닌경우
+            .filter((v) => {
+              if (pageTitle !== "인기도서") {
+                if (selectedGenreIndex === 0) {
+                  return (
+                    Number(v.addition_symbol.charAt(0)) ===
+                    (0 || 1 || 2 || 4 || 9)
+                  );
+                } else if (selectedGenreIndex === 1) {
+                  return (
+                    Number(v.addition_symbol.charAt(0)) === (4 || 5 || 6 || 7)
+                  );
+                } else {
+                  if (KDC !== "전체") {
+                    return (
                       KDCListArr.indexOf(KDC) === Number(v.class_no.charAt(0))
-                    : // B삼항? 데이터의 KDC가 일치한 경우에만 출력
-                    selectedGenreIndex === 1
-                    ? // B삼항: KDC가 전체인경우 일반도서/어린이도서중 어린이도서 선택이면
-                      Number(v.addition_symbol.charAt(0)) === (4 || 5 || 6 || 7)
-                    : // C삼항? 부가기호가 어린이도서만 출력
-                      Number(v.addition_symbol.charAt(0)) ===
-                      (0 || 1 || 2 || 4 || 9)
-                  : // C삼항 : 부가기호가 일반도서인경우 출력
-                    v
-              // selectedGenreIndex !== 2고, KDC == "전체"일경우 v 그대로 출력
-            )
+                    );
+                  } else return v;
+                }
+              } else return v;
+            })
             .map((DB, i) => {
               return (
                 <li key={`${DB.isbn13} ${DB.vol} ${i + 1}`}>
@@ -301,26 +296,26 @@ function BookRender(props) {
           total={
             data.response.docs
               ?.map((v) => v.doc)
-              .filter((v) =>
-                pageTitle === "인기도서"
-                  ? // A삼항 pageTItle이 인기도서면
-                    v
-                  : // A삼항? 그대로 출력
-                  selectedGenreIndex === 2
-                  ? // A삼항: B삼항으로 일반도서/어린이도서/주제별도서 선택중 주제별도서 선택이면
-                    KDC !== "전체"
-                    ? //B 삼항 KDC가 전체가 아닌경우
-                      KDCListArr.indexOf(KDC) === Number(v.class_no.charAt(0))
-                    : // B삼항? 데이터의 KDC가 일치한 경우에만 출력
-                    selectedGenreIndex === 1
-                    ? // B삼항: KDC가 전체인경우 일반도서/어린이도서중 어린이도서 선택이면
-                      Number(v.addition_symbol.charAt(0)) === (4 || 5 || 6 || 7)
-                    : // C삼항? 부가기호가 어린이도서만 출력
+              .filter((v) => {
+                if (pageTitle !== "인기도서") {
+                  if (selectedGenreIndex === 0) {
+                    return (
                       Number(v.addition_symbol.charAt(0)) ===
                       (0 || 1 || 2 || 4 || 9)
-                  : // C삼항 : 부가기호가 일반도서인경우 출력
-                    v
-              ).length
+                    );
+                  } else if (selectedGenreIndex === 1) {
+                    return (
+                      Number(v.addition_symbol.charAt(0)) === (4 || 5 || 6 || 7)
+                    );
+                  } else {
+                    if (KDC !== "전체") {
+                      return (
+                        KDCListArr.indexOf(KDC) === Number(v.class_no.charAt(0))
+                      );
+                    } else return v;
+                  }
+                } else return v;
+              }).length
           }
           limit={limit}
           page={page}
