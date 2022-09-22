@@ -88,39 +88,52 @@ function BookFillter(props) {
   const toggleSwitchHandler = (e) => {
     // props.setSelectedGenre(e => e.target.value)
     GenreOptions.map((v, i) =>
-      e.target.value === v ? props.setSelectedGenreIndex(i) : null
+      e.target.value === v
+        ? props.changeIndexCode(props.selectedGenreIndex, i)
+        : null
     );
 
-    props.setSelectedGenre(e.target.value);
+    props.changeAllCode(props.selectedGenre, e.target.value);
   };
   return (
     <FillterContainer>
       <FillterAllWrap>
         <LocateFillter
           defaultValue={props.selectedLoc}
-          onChange={(e) => props.setSelectedLoc(e.target.value)}
+          onChange={(e) =>
+            props.changeAllCode(props.selectedLoc, e.target.value)
+          }
         >
           <option key='all'>전체도서관</option>
           {LocOptions.map((v) => (
             <option key={`Location${v}`}>{v}</option>
           ))}
         </LocateFillter>
-        <YearFillter
-          defaultValue={props.selectedYear}
-          onChange={(e) => props.setSelectedYear(e.target.value)}
-        >
-          {YearOptions.map((v, i) => (
-            <option key={i}>20{v}년</option>
-          ))}
-        </YearFillter>
-        <MonthFillter
-          defaultValue={props.selectedMon}
-          onChange={(e) => props.setSelectedMon(e.target.value)}
-        >
-          {MonOptions?.map((v, i) => (
-            <option key={i}>{v}월</option>
-          ))}
-        </MonthFillter>
+        {props.pageTitle === "인기도서" ? (
+          <>
+            <YearFillter
+              defaultValue={props.selectedYear}
+              onChange={(e) =>
+                props.changeAllCode(props.selectedYear, e.target.value) &&
+                console.log(props.selectedYear)
+              }
+            >
+              {YearOptions.map((v, i) => (
+                <option key={i}>20{v}년</option>
+              ))}
+            </YearFillter>
+            <MonthFillter
+              defaultValue={props.allCode.selectedMon}
+              onChange={(e) =>
+                props.changeAllCode(props.selectedMon, e.target.value)
+              }
+            >
+              {MonOptions?.map((v, i) => (
+                <option key={i}>{v}월</option>
+              ))}
+            </MonthFillter>{" "}
+          </>
+        ) : null}
       </FillterAllWrap>
       <BookAllWrap>
         {GenreOptions.map((v, i) => (
@@ -137,8 +150,8 @@ function BookFillter(props) {
       {props.selectedGenre === GenreOptions[2] ? (
         <SubjectBook>
           <SubjectBookSelect
-            defaultValue={props.KDC}
-            onChange={(e) => props.setKDC(e.target.value)}
+            defaultValue={props.allCode.KDC}
+            onChange={(e) => props.changeAllCode(props.KDC, e.target.value)}
           >
             <option key='all'>전체</option>
             {KDCList?.map((v, i) => (

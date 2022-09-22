@@ -79,8 +79,6 @@ function BookRender(props) {
   DateFilter();
   console.log(checkDay, checkMonth, year);
   const App = () => {
-    // page 유무
-    const [pageTitle, setPageTitle] = useState("인기도서");
     // 데이터 가져오기
     const [data, setData] = useState({ response: {} });
     const [loading, setLoading] = useState(false);
@@ -93,81 +91,69 @@ function BookRender(props) {
     // pagination 코드 end
 
     // filter 코드 start
-    const [allCode, setAllCode] = useState({
-      selectedLoc: "전체도서관",
-      selectedYear: "2022년",
-      selectedMon: "9월",
-      selectedGenre: "일반도서",
-      KDC: "전체",
-    });
+    /**library code*/
+    const [libCode, setLibcode] = useState(0);
+    // Library FullName
+    const [forFindLoc, setForFindLoc] = useState("수원시립영통도서관");
+    // Library Name
+    const [selectedLoc, setSelectedLoc] = useState("전체도서관");
+    // 찾고자하는 년도
+    const [selectedYear, setSelectedYear] = useState("2022년");
+    const [selectedYearIndex, setSelectedYearIndex] = useState(22);
+    // 찾고자하는 월
+    const [selectedMon, setSelectedMon] = useState("9월");
+    const [selectedMonIndex, setSelectedMonIndex] = useState(9);
+    // 나중에 date함수이용해서 현재월로 변경하기
 
-    const [indexCode, setIndexCode] = useState({
-      forFindLoc: "수원시립영통도서관",
-      libCode: 0,
-      selectedYearIndex: 22,
-      selectedMonIndex: 9,
-      selectedGenreIndex: 0,
-    });
+    // 분류별 도서
+    const [selectedGenre, setSelectedGenre] = useState("일반도서");
+    // 분류별 도서 index
+    const [selectedGenreIndex, setSelectedGenreIndex] = useState(0);
+    // KDC 분류별 도서
+    const [KDC, setKDC] = useState("전체");
+    // filter 코드 end
 
-    const changeAllCode = (key, value) => {
-      setAllCode((rest) => {
-        let fetchAllCode = { ...rest };
-        fetchAllCode[key] = value;
-        console.log(fetchAllCode);
-        return fetchAllCode;
-      });
-    };
-
-    const changeIndexCode = (key, value) => {
-      setIndexCode((rest) => {
-        let fetchIndexCode = { ...rest };
-        fetchIndexCode[key] = value;
-
-        return fetchIndexCode[key];
-      });
-    };
-
-    useEffect(() => {
-      let tempYear = allCode.selectedYear;
-      changeIndexCode(indexCode.selectedYearIndex, tempYear.slice(2, 4));
-      changeIndexCode(
-        indexCode.selectedMonIndex,
-        allCode.selectedMon.charAt(0)
-      );
-      indexCode.forFindLoc === "전체도서관"
-        ? changeIndexCode(indexCode.libCode, 0)
-        : changeIndexCode(indexCode.libCode, LibraryList[indexCode.forFindLoc]);
-      if (allCode.selectedLoc !== "전체도서관") {
-        Object.keys(LibraryList).includes(allCode.selectedLoc)
-          ? changeIndexCode(indexCode.forFindLoc, allCode.selectedLoc)
-          : changeIndexCode(
-              indexCode.forFindLoc,
-              `수원시립${allCode.selectedLoc}`
-            );
-      } else changeIndexCode(indexCode.forFindLoc, "전체도서관");
-    }, [
-      allCode.selectedLoc,
-      allCode.selectedMon,
-      allCode.selectedYear,
-      indexCode.forFindLoc,
-      indexCode.libCode,
-      indexCode.selectedMonIndex,
-      indexCode.selectedYearIndex,
-    ]);
+    // page 유무
+    const [pageTitle, setPageTitle] = useState("인기도서");
 
     // 연동
+    useEffect(() => {
+      let tempYear = selectedYear;
+      setSelectedYearIndex(tempYear.slice(2, 4));
+    }, [selectedYear]);
+
+    useEffect(() => {
+      setSelectedMonIndex(selectedMon.charAt(0));
+    }, [selectedMon]);
+
+    // selectedLoc이 바뀌었을 때 forFindLoc에 해당 값 변경하기
+    useEffect(() => {
+      if (selectedLoc !== "전체도서관") {
+        Object.keys(LibraryList).includes(selectedLoc)
+          ? setForFindLoc(selectedLoc)
+          : setForFindLoc(`수원시립${selectedLoc}`);
+        // 전체도서관이 아닐때 실행되는데, selectedLoc의 값이 LibraryList에 없으면 수원시립을 앞에 붙여서 forFindLoc에 저장.
+      } else setForFindLoc("전체도서관");
+    }, [selectedLoc]);
+
+    // forFindLoc이 변경되엇을 때 해당 도서관이름에 맞는 도서관 코드 변경
+    useEffect(() => {
+      forFindLoc === "전체도서관"
+        ? setLibcode(0)
+        : setLibcode(LibraryList[forFindLoc]);
+    }, [forFindLoc]);
 
     // 성인코드
     const adultCode = `&addCode=0;1;2;4;9`;
     // 어린이코드
     const childCode = `&addCode=4;5;6;7`;
     const KDCIndexCheck =
-      KDCListArr.indexOf(allCode.KDC) !== -1
-        ? `${adultCode}&kdc=${KDCListArr.indexOf(allCode.KDC)}`
+      KDCListArr.indexOf(KDC) !== -1
+        ? `${adultCode}&kdc=${KDCListArr.indexOf(KDC)}`
         : "";
     const GenreCheck =
-      indexCode.selectedGenreIndex !== 2
-        ? indexCode.selectedGenreIndex === 0
+      selectedGenreIndex !== 2
+        ? selectedGenreIndex === 0
           ? `${adultCode}`
           : `${childCode}`
         : `${KDCIndexCheck}`;
@@ -183,42 +169,31 @@ function BookRender(props) {
     let location = useLocation();
     useEffect(() => {
       setPageTitle(props.title);
+      console.log(location.pathname);
+      console.log(props.title);
     }, [location.pathname]);
 
     const popularAPI = useMemo(() => {
-      return indexCode.libCode === 0
-        ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&startDt=20${
-            indexCode.selectedYearIndex
-          }-0${indexCode.selectedMonIndex - 2}-01&endDt=20${
-            indexCode.selectedYearIndex
-          }-0${indexCode.selectedMonIndex}-30${GenreCheck}&format=json
+      return libCode === 0
+        ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&startDt=20${selectedYearIndex}-0${
+            selectedMonIndex - 2
+          }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
 `
-        : `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${
-            indexCode.libCode
-          }&startDt=20${indexCode.selectedYearIndex}-0${
-            indexCode.selectedMonIndex - 2
-          }-01&endDt=20${indexCode.selectedYearIndex}-0${
-            indexCode.selectedMonIndex
-          }-30${GenreCheck}&format=json
+        : `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYearIndex}-0${
+            selectedMonIndex - 2
+          }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
   `;
-    }, [
-      indexCode.selectedYearIndex,
-      indexCode.selectedMonIndex,
-      indexCode.libCode,
-      GenreCheck,
-    ]);
+    }, [selectedYearIndex, selectedMonIndex, GenreCheck, libCode]);
     // 전체도서관을 찾을방법이 없어 임시로 영통도서관의 장서데이터를 불러옴.
     const accessionAPI = useMemo(() => {
-      return indexCode.libCode === 0
+      return libCode === 0
         ? `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=141061&startDt=${year}-0${
             month - 1
           }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json&pageNo=1&pageSize=500`
-        : `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=${
-            indexCode.libCode
-          }&startDt=${year}-0${
+        : `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=${libCode}&startDt=${year}-0${
             month - 1
           }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json&pageNo=1&pageSize=500`;
-    }, [indexCode.libCode]);
+    }, [libCode]);
     // const libAPI = "";
 
     // console.log(data.response.resultNum); // 페이지 크기가 없을 경우 페이지당 100개
@@ -256,25 +231,25 @@ function BookRender(props) {
       <>
         <BookFillter
           pageTitle={pageTitle}
-          allCode={allCode}
-          changeAllCode={changeAllCode}
-          KDC={allCode.KDC}
-          changeIndexCode={changeIndexCode}
-          selectedLoc={allCode.selectedLoc}
-          selectedYear={allCode.selectedYear}
-          selectedYearIndex={indexCode.selectedYearIndex}
-          selectedMon={allCode.selectedMon}
-          selectedMonIndex={indexCode.selectedMonIndex}
-          selectedGenre={allCode.selectedGenre}
-          selectedGenreIndex={indexCode.selectedGenreIndex}
+          KDC={KDC}
+          setKDC={setKDC}
+          selectedGenreIndex={selectedGenreIndex}
+          setSelectedGenreIndex={setSelectedGenreIndex}
+          selectedGenre={selectedGenre}
+          setSelectedGenre={setSelectedGenre}
+          selectedLoc={selectedLoc}
+          setSelectedLoc={setSelectedLoc}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
+          selectedMon={selectedMon}
+          setSelectedMon={setSelectedMon}
         />
         <DisplayBooks>
           {data.response.docs
             ?.map((v) => v.doc)
             .filter((v) =>
-              props.title === "신착도서" && allCode.KDC !== "전체"
-                ? KDCListArr.indexOf(allCode.KDC) ===
-                  Number(v.class_no.charAt(0))
+              props.title === "신착도서" && KDC !== "전체"
+                ? KDCListArr.indexOf(KDC) === Number(v.class_no.charAt(0))
                 : v
             )
             .map((DB, i) => {
@@ -302,9 +277,8 @@ function BookRender(props) {
         <Pagination
           total={
             data.response.docs?.filter((v) =>
-              props.title === "신착도서" && allCode.KDC !== "전체"
-                ? KDCListArr.indexOf(allCode.KDC) ===
-                  Number(v.doc.class_no.charAt(0))
+              props.title === "신착도서" && KDC !== "전체"
+                ? KDCListArr.indexOf(KDC) === Number(v.doc.class_no.charAt(0))
                 : v
             ).length
           }
