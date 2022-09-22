@@ -147,10 +147,13 @@ function BookRender(props) {
     const adultCode = `&addCode=0;1;2;4;9`;
     // 어린이코드
     const childCode = `&addCode=4;5;6;7`;
+
+    // BookFilter로부터가져온 kdclist의 배열값이 -1이 아닐때만 동작.
     const KDCIndexCheck =
       KDCListArr.indexOf(KDC) !== -1
         ? `${adultCode}&kdc=${KDCListArr.indexOf(KDC)}`
         : "";
+
     const GenreCheck =
       selectedGenreIndex !== 2
         ? selectedGenreIndex === 0
@@ -227,7 +230,9 @@ function BookRender(props) {
       // console.log("isLoading");
       return <Loader></Loader>;
     }
-
+    console.log(
+      data.response.docs?.map((v) => v.doc.addition_symbol.charAt(0))
+    );
     return (
       <>
         <BookFillter
@@ -248,10 +253,27 @@ function BookRender(props) {
         <DisplayBooks>
           {data.response.docs
             ?.map((v) => v.doc)
-            .filter((v) =>
-              props.title === "신착도서" && KDC !== "전체"
-                ? KDCListArr.indexOf(KDC) === Number(v.class_no.charAt(0))
-                : v
+            .filter(
+              (v) =>
+                pageTitle === "인기도서"
+                  ? // A삼항 pageTItle이 인기도서면
+                    v
+                  : // A삼항? 그대로 출력
+                  selectedGenreIndex === 2
+                  ? // A삼항: B삼항으로 일반도서/어린이도서/주제별도서 선택중 주제별도서 선택이면
+                    KDC !== "전체"
+                    ? //B 삼항 KDC가 전체가 아닌경우
+                      KDCListArr.indexOf(KDC) === Number(v.class_no.charAt(0))
+                    : // B삼항? 데이터의 KDC가 일치한 경우에만 출력
+                    selectedGenreIndex === 1
+                    ? // B삼항: KDC가 전체인경우 일반도서/어린이도서중 어린이도서 선택이면
+                      Number(v.addition_symbol.charAt(0)) === (4 || 5 || 6 || 7)
+                    : // C삼항? 부가기호가 어린이도서만 출력
+                      Number(v.addition_symbol.charAt(0)) ===
+                      (0 || 1 || 2 || 4 || 9)
+                  : // C삼항 : 부가기호가 일반도서인경우 출력
+                    v
+              // selectedGenreIndex !== 2고, KDC == "전체"일경우 v 그대로 출력
             )
             .map((DB, i) => {
               return (
@@ -277,11 +299,28 @@ function BookRender(props) {
 
         <Pagination
           total={
-            data.response.docs?.filter((v) =>
-              props.title === "신착도서" && KDC !== "전체"
-                ? KDCListArr.indexOf(KDC) === Number(v.doc.class_no.charAt(0))
-                : v
-            ).length
+            data.response.docs
+              ?.map((v) => v.doc)
+              .filter((v) =>
+                pageTitle === "인기도서"
+                  ? // A삼항 pageTItle이 인기도서면
+                    v
+                  : // A삼항? 그대로 출력
+                  selectedGenreIndex === 2
+                  ? // A삼항: B삼항으로 일반도서/어린이도서/주제별도서 선택중 주제별도서 선택이면
+                    KDC !== "전체"
+                    ? //B 삼항 KDC가 전체가 아닌경우
+                      KDCListArr.indexOf(KDC) === Number(v.class_no.charAt(0))
+                    : // B삼항? 데이터의 KDC가 일치한 경우에만 출력
+                    selectedGenreIndex === 1
+                    ? // B삼항: KDC가 전체인경우 일반도서/어린이도서중 어린이도서 선택이면
+                      Number(v.addition_symbol.charAt(0)) === (4 || 5 || 6 || 7)
+                    : // C삼항? 부가기호가 어린이도서만 출력
+                      Number(v.addition_symbol.charAt(0)) ===
+                      (0 || 1 || 2 || 4 || 9)
+                  : // C삼항 : 부가기호가 일반도서인경우 출력
+                    v
+              ).length
           }
           limit={limit}
           page={page}
