@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Responsive from "./Responsive";
 const DisplayContainer = styled.div`
-  width: 70%;
+  width: 80%;
   min-height: 80vh;
   padding-bottom: 40px;
   position: relative;
