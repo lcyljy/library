@@ -28,8 +28,10 @@ const DisplayBooks = styled.ul`
   justify-content: center;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   background: ${palette.gray[2]};
+  .test {
+    width: 150px;
+  }
   li {
-    display: grid;
     list-style: none;
     text-decoration: none;
     padding: 4px;
@@ -72,6 +74,9 @@ const BookImage = styled.div.attrs({ type: "Image" })`
   background-repeat: no-repeat;
   width: 100%;
   height: 180px;
+  /* @media (min-width: 1024px) {
+    height: 240px;
+  } */
 `;
 
 function BookRender(props) {
@@ -274,19 +279,21 @@ function BookRender(props) {
             .map((DB, i) => {
               return (
                 <li key={`${DB.isbn13} ${DB.vol} ${i + 1}`}>
-                  <h2>{i + 1}</h2>
-                  <BookImage
-                    style={{
-                      backgroundImage: `url(${
-                        DB.bookImageURL ? DB.bookImageURL : no_image
-                      })`,
-                    }}
-                  ></BookImage>
+                  <div className='test'>
+                    <h2>{i + 1}</h2>
 
-                  <p>
-                    {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
-                  </p>
-                  <p>{DB.authors}</p>
+                    <BookImage
+                      style={{
+                        backgroundImage: `url(${
+                          DB.bookImageURL ? DB.bookImageURL : no_image
+                        })`,
+                      }}
+                    ></BookImage>
+                    <p>
+                      {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
+                    </p>
+                    <p>{DB.authors}</p>
+                  </div>
                 </li>
               );
             })
