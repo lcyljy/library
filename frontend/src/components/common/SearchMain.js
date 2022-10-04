@@ -4,7 +4,6 @@ import Responsive from "./Responsive";
 import background from "../../lib/img/main/img_main_visual.png";
 import { Link } from "react-router-dom";
 import palette from "../../lib/styles/palette";
-import ExternalPage from "./ExternalPage";
 
 const Inner = styled(Responsive)`
   background-image: url(${background});
@@ -51,7 +50,7 @@ function SearchMain() {
     "/discovery/popularBook",
     "/discovery/accessionBook",
     "/discovery/libBook",
-    "/redirect",
+    "/redirectA",
     "/baroLoan",
     "/localSearch",
   ];
