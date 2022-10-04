@@ -96,14 +96,6 @@ const GroupSideMenu = styled(Link)`
   color: ${palette.gray[9]};
 `;
 
-const ExternalPageLink = styled(ExternalPage)`
-  display: block;
-  margin-bottom: 7px;
-  font-weight: 700;
-  color: ${palette.gray[9]};
-  font-size: 17px;
-`;
-
 function MenuBar() {
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
 
