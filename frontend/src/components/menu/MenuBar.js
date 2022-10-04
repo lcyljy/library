@@ -6,6 +6,7 @@ import Dropdown from "../common/Dropdown";
 import Button from "../common/Button";
 import MenuImg from "../../lib/img/nav_icon/bg_gnb_01.png";
 import { Link } from "react-router-dom";
+import ExternalPage from "../common/ExternalPage";
 
 const MainMenuContainer = styled(Button)`
   z-index: 10001;
@@ -94,6 +95,7 @@ const GroupSideMenu = styled(Link)`
   font-size: 15px;
   color: ${palette.gray[9]};
 `;
+
 function MenuBar() {
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
 
@@ -125,7 +127,12 @@ function MenuBar() {
                 <br />
                 <GroupMenu to='/discovery/libBook'>추천도서</GroupMenu>
                 <br />
-                <GroupMenu to='/'>전자도서관</GroupMenu>
+                <ExternalPage
+                  href='https://ebook.suwonlib.go.kr/'
+                  rel='noreferrer'
+                  target='_blank'
+                  value='전자도서관'
+                ></ExternalPage>
                 <br />
               </Group>
               <Group>
@@ -133,7 +140,12 @@ function MenuBar() {
                 <br />
                 <GroupMenu to='/localSearch'>지역도서관 통합검색</GroupMenu>
                 <br />
-                <GroupMenu to='/'>이용안내</GroupMenu>
+                <ExternalPage
+                  href='http://www.suwonlib.go.kr:8080/download/AlpasQ_Manual.pdf'
+                  rel='noreferrer'
+                  target='_blank'
+                  value='이용안내'
+                ></ExternalPage>
                 <br />
               </Group>
             </WrapMenu>

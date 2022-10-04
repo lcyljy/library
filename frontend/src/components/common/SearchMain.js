@@ -4,6 +4,7 @@ import Responsive from "./Responsive";
 import background from "../../lib/img/main/img_main_visual.png";
 import { Link } from "react-router-dom";
 import palette from "../../lib/styles/palette";
+
 const Inner = styled(Responsive)`
   background-image: url(${background});
   background-repeat: no-repeat;
@@ -49,7 +50,7 @@ function SearchMain() {
     "/discovery/popularBook",
     "/discovery/accessionBook",
     "/discovery/libBook",
-    "/",
+    "/redirectA",
     "/baroLoan",
     "/localSearch",
   ];
@@ -61,8 +62,15 @@ function SearchMain() {
     "ico_main_link_12",
     "ico_main_link_11",
   ];
+
   const menuListRender = menuList.map((name, i) => (
-    <Link to={linkList[i]} className='list' key={i}>
+    <Link
+      to={linkList[i]}
+      className='list'
+      target={i === 3 ? "_blank" : null}
+      key={i}
+      value={name}
+    >
       <img
         src={require(`../../lib/img/main_icon/${imgSrc[i]}.png`)}
         alt={`ico_main_link_4${imgSrc[i]}`}
