@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import palette from "../../lib/styles/palette";
 import Pagination from "../posts/Pagination";
