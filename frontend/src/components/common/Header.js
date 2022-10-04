@@ -111,7 +111,14 @@ const Header = () => {
     <>
       <UtilMenu>
         <WrapperUtil>
-          <div className='navBtn'>도서관사업소 바로가기</div>
+          <Link
+            to='/redirectB'
+            rel='noreferrer'
+            target='_blank'
+            className='navBtn'
+          >
+            도서관사업소 바로가기
+          </Link>
           <div className='navBtn'>로그인</div>
           <div className='navBtn'>내서재</div>
         </WrapperUtil>
