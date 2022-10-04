@@ -8,7 +8,10 @@ import DiscoveryPage from "./pages/DiscoveryPage";
 import HeaderNavContainer from "./container/common/HeaderNavContainer";
 import KdcSearchPage from "./pages/KdcSearchPage";
 import Footer from "./components/common/Footer";
+import Redirect from "./pages/Redirect";
+
 function App() {
+  const url = "https://ebook.suwonlib.go.kr/";
   return (
     <>
       <GlobalStyles />
@@ -20,6 +23,7 @@ function App() {
         <Route path='/localSearch' element={<LocalSearchPage />}></Route>
         <Route path='/categorySearch' element={<CategorySearch />}></Route>
         <Route path='/kdcSearch' element={<KdcSearchPage />}></Route>
+        <Route path='/redirect' element={<Redirect url={url} />}></Route>
       </Routes>
       <Footer></Footer>
     </>
