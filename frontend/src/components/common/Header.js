@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Responsive from "./Responsive";
 import { Link } from "react-router-dom";
 import logo_suwon from "../../lib/img/logo/logo_suwon.png";
 import palette from "../../lib/styles/palette";
+import Auth from "../auth/Auth";
 
 const UtilMenu = styled.div`
   z-index: 10000;
@@ -108,6 +109,8 @@ const Spacer = styled.div`
 `;
 
 const Header = () => {
+  const [isLogin, setLogin] = useState(false);
+
   return (
     <>
       <UtilMenu>
@@ -120,7 +123,9 @@ const Header = () => {
           >
             도서관사업소 바로가기
           </Link>
-          <div className='navBtn'>로그인</div>
+          <div className='navBtn'>
+            <Auth isLogin={isLogin} />
+          </div>
           <div className='navBtn'>내서재</div>
         </WrapperUtil>
       </UtilMenu>
