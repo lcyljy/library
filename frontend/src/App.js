@@ -9,6 +9,7 @@ import HeaderNavContainer from "./container/common/HeaderNavContainer";
 import KdcSearchPage from "./pages/KdcSearchPage";
 import Footer from "./components/common/Footer";
 import Redirect from "./pages/Redirect";
+import AuthPage from "./pages/AuthPage";
 
 function App() {
   const url = "https://ebook.suwonlib.go.kr/";
@@ -26,6 +27,7 @@ function App() {
         <Route path='/kdcSearch' element={<KdcSearchPage />}></Route>
         <Route path='/redirectA' element={<Redirect url={url} />}></Route>
         <Route path='/redirectB' element={<Redirect url={url2} />}></Route>
+        <Route path='/auth' element={<AuthPage />}></Route>
       </Routes>
       <Footer></Footer>
     </>
