@@ -4,6 +4,7 @@ import Button from "../common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import palette from "../../lib/styles/palette";
+import { useLogin } from "../../components/auth/hooks/useLogin";
 
 const PopHeader = styled.div`
   display: flex;
@@ -72,38 +73,35 @@ function Login() {
   // useState를 사용해 값을 관리합니다.
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { error, isPending, login } = useLogin();
 
   // 폼의 입력요소에 변화가 생기면 트리거 됩니다.
-  const onChange = (event) => {
-    console.log(event.target.type);
-    const inputData = {
-      type: event.target.type,
-      value: event.target.value,
-    };
-
-    // 인풋 타입에 따라 state 값을 변경합니다.
-    if (inputData.type === "email") {
-      setEmail(inputData.value);
-    } else if (inputData.type === "password") {
-      setPassword(inputData.value);
+  const handleData = (event) => {
+    if (event.target.type === "email") {
+      setEmail(event.target.value);
+    } else if (event.target.type === "password") {
+      setPassword(event.target.value);
     }
   };
 
   // 폼이 제출되면 트리거 됩니다.
-  const onSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(email, password);
+    login(email, password);
   };
+
   return (
     <PopHeader>
       <AuthContainer>
-        <AuthPage onSubmit={onSubmit}>
+        <AuthPage onSubmit={handleSubmit}>
           <div className='row'>
             <FontAwesomeIcon icon={faUser} className='icon' />
             <input
               type='email'
               value={email}
-              onChange={onChange}
-              placeHolder='도서관 회원 아이디'
+              onChange={handleData}
+              placeholder='도서관 회원 아이디'
               required
             ></input>
           </div>
@@ -111,14 +109,17 @@ function Login() {
             <FontAwesomeIcon icon={faLock} className='icon' />
             <input
               type='password'
-              value={password}
-              onChange={onChange}
-              placeHolder='도서관 회원 비밀번호'
+              id='myPassWord'
               required
-            ></input>
+              onChange={handleData}
+              placeholder='도서관 회원 비밀번호'
+              value={password}
+            />
           </div>
+          {!isPending && <LoginButton type='submit'>로그인</LoginButton>}
+          {isPending && <strong>로그인 진행중입니다...</strong>}
+          {error && <strong>{error}</strong>}
         </AuthPage>
-        <LoginButton type='submit'>로그인</LoginButton>
       </AuthContainer>
       <AuthContainer>
         <JoinBtn>회원가입</JoinBtn> <FindBtn> ID/PW 찾기 </FindBtn>
