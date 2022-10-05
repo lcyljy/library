@@ -43,6 +43,8 @@ const AuthPage = styled.form`
 `;
 
 const LoginButton = styled(Button)`
+  position: relative;
+  float: right;
   margin: 5px 0;
   margin-left: 0.5em;
   padding: 6px 12px;
@@ -54,13 +56,17 @@ const LoginButton = styled(Button)`
 `;
 
 const JoinBtn = styled(Button)`
+  text-align: center;
+
   width: 100px;
   padding: 3px;
+  border: none;
   border-radius: 10px;
   color: #fff;
   background-color: ${palette.orange[5]};
 `;
 const FindBtn = styled(Button)`
+  text-align: center;
   width: 100px;
   margin-left: 0.5em;
   padding: 3px;
@@ -87,7 +93,6 @@ function Login() {
   // 폼이 제출되면 트리거 됩니다.
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(email, password);
     login(email, password);
   };
 
@@ -122,7 +127,7 @@ function Login() {
         </AuthPage>
       </AuthContainer>
       <AuthContainer>
-        <JoinBtn>회원가입</JoinBtn> <FindBtn> ID/PW 찾기 </FindBtn>
+        <JoinBtn to='/auth'>회원가입</JoinBtn> <FindBtn> ID/PW 찾기 </FindBtn>
       </AuthContainer>
     </PopHeader>
   );
