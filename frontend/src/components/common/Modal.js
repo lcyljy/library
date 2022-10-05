@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import palette from "../../lib/styles/palette";
-
+import { useAuthContext } from "../auth/hooks/useAuthContext";
 const modalShow = keyframes`
   0%{
     opacity: 0;
@@ -69,10 +69,11 @@ const ModalContainer = styled.div`
 `;
 function Modal(props) {
   const { open, close, header } = props;
-  console.log(open, close, header);
+  const { user } = useAuthContext();
+
   return (
     <>
-      {open ? (
+      {!user && open ? (
         <ModalContainer>
           <section>
             <header>
