@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Responsive from "./Responsive";
 import { Link } from "react-router-dom";
 import logo_suwon from "../../lib/img/logo/logo_suwon.png";
 import palette from "../../lib/styles/palette";
 import Auth from "../auth/Auth";
-import { authService } from "../../fBase";
+import { appAuth } from "../../firebase/fBase";
 import Modal from "./Modal";
 import Login from "../auth/Login";
+import { useAuthContext } from "../auth/hooks/useAuthContext";
 
 const UtilMenu = styled.div`
   z-index: 10000;
@@ -112,8 +113,22 @@ const Spacer = styled.div`
 `;
 
 const Header = () => {
-  const [isLogin, setLogin] = useState(authService.currentUser);
+  const [isLogin, setLogin] = useState(appAuth.currentUser);
   const [modalOpen, setModalOpen] = useState(false);
+  const [init, setInit] = useState(false);
+  const { user } = useAuthContext();
+  // useEffect : 특정 컴포넌트가 렌더링 이후에 어떤 일을 해야하는지 설정할 수 있습니다.
+  useEffect(() => {
+    appAuth.onAuthStateChanged((user) => {
+      console.log(user);
+      if (user) {
+        setLogin(true);
+      } else {
+        setLogin(false);
+      }
+      setInit(true);
+    });
+  });
 
   const openModal = (e) => {
     e.preventDefault();
@@ -136,11 +151,16 @@ const Header = () => {
           >
             도서관사업소 바로가기
           </Link>
-          <div className='navBtn'>
-            <button onClick={openModal}>로그인</button>
-            <Auth isLogin={isLogin} />
+          <div className='navBtn' onClick={!user ? openModal : null}>
+            {init ? <Auth isLogin={isLogin} /> : "로딩중..."}
           </div>
-          <div className='navBtn'>내서재</div>
+          <div
+            className='navBtn'
+            onClick={!user ? openModal : null}
+            style={{ cursor: "pointer" }}
+          >
+            내서재
+          </div>
         </WrapperUtil>
       </UtilMenu>
       <Nav>
