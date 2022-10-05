@@ -77,7 +77,6 @@ function BookRender(props) {
   const KDCList = KDC.contents.categoryList;
   const KDCListArr = KDCList?.map((v) => v.keyword);
   DateFilter();
-  console.log(checkDay, checkMonth, year);
   const App = () => {
     // 데이터 가져오기
     const [data, setData] = useState({ response: {} });
@@ -172,8 +171,6 @@ function BookRender(props) {
     let location = useLocation();
     useEffect(() => {
       setPageTitle(props.title);
-      console.log(location.pathname);
-      console.log(props.title);
     }, [location.pathname]);
 
     const popularAPI = useMemo(() => {
@@ -190,10 +187,10 @@ function BookRender(props) {
     // 전체도서관을 찾을방법이 없어 임시로 영통도서관의 장서데이터를 불러옴.
     const accessionAPI = useMemo(() => {
       return libCode === 0
-        ? `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=141061&startDt=${year}-0${
+        ? `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=141061&type=ALL&startDt=${year}-0${
             month - 1
           }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json&pageNo=1&pageSize=500`
-        : `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=${libCode}&startDt=${year}-0${
+        : `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=${libCode}&type=ALL&startDt=${year}-0${
             month - 1
           }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json&pageNo=1&pageSize=500`;
     }, [libCode]);
@@ -221,8 +218,6 @@ function BookRender(props) {
         }
       })();
 
-      console.log(props.title, pageTitle);
-      console.log(props.title, pageTitle);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [popularAPI, accessionAPI]);
 

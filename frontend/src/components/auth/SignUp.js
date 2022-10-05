@@ -1,8 +1,3 @@
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
 import React, { useState } from "react";
 import styled from "styled-components";
 import MainContainer from "../common/MainContainer";

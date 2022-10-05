@@ -120,7 +120,6 @@ const Header = () => {
   // useEffect : 특정 컴포넌트가 렌더링 이후에 어떤 일을 해야하는지 설정할 수 있습니다.
   useEffect(() => {
     appAuth.onAuthStateChanged((user) => {
-      console.log(user);
       if (user) {
         setLogin(true);
       } else {
