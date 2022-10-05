@@ -11,10 +11,13 @@ import KdcSearchPage from "./pages/KdcSearchPage";
 import Footer from "./components/common/Footer";
 import Redirect from "./pages/Redirect";
 import AuthPage from "./pages/AuthPage";
+import { useAuthContext } from "./components/auth/hooks/useAuthContext";
 
 function App() {
   const url = "https://ebook.suwonlib.go.kr/";
   const url2 = "https://www.suwonlib.go.kr/";
+  const { isAuthReady, user } = useAuthContext();
+
   return (
     <>
       <GlobalStyles />
@@ -28,7 +31,8 @@ function App() {
         <Route path='/kdcSearch' element={<KdcSearchPage />}></Route>
         <Route path='/redirectA' element={<Redirect url={url} />}></Route>
         <Route path='/redirectB' element={<Redirect url={url2} />}></Route>
-        <Route path='/auth' element={<AuthPage />}></Route>
+        <Route path='/auth' element={!user ? <AuthPage /> : null}></Route>
+        {/* 임시로 null값을 넣어놨는데 잘못된 경로입니다 Page만들어야할 듯? */}
       </Routes>
       <Footer></Footer>
     </>
