@@ -53,14 +53,14 @@ const LoginButton = styled(Button)`
 `;
 
 const JoinBtn = styled(Button)`
-  width: 150px;
+  width: 100px;
   padding: 3px;
   border-radius: 10px;
   color: #fff;
   background-color: ${palette.orange[5]};
 `;
 const FindBtn = styled(Button)`
-  width: 12.5%;
+  width: 100px;
   margin-left: 0.5em;
   padding: 3px;
   border-radius: 10px;
