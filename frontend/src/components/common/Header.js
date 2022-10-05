@@ -7,6 +7,7 @@ import palette from "../../lib/styles/palette";
 import Auth from "../auth/Auth";
 import { authService } from "../../fBase";
 import Modal from "./Modal";
+import Login from "../auth/Login";
 
 const UtilMenu = styled.div`
   z-index: 10000;
@@ -167,8 +168,8 @@ const Header = () => {
         </WrapperNav>
       </Nav>
       <Spacer />
-      <Modal open={modalOpen} close={closeModal} header='Modal heading'>
-        test
+      <Modal open={modalOpen} close={closeModal} header='회원로그인'>
+        <Login />
       </Modal>
     </>
   );
