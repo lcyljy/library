@@ -32,9 +32,9 @@ const ModalContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.6);
   animation: ${modalBgShow} 0.3s;
   section {
-    width: 90%;
-    max-width: 450px;
-    height: 400px;
+    width: 80%;
+    /* max-width: 450px; */
+    height: 300px;
     margin: 0 auto;
     border-radius: 0.3rem;
     background-color: #fff;
@@ -43,36 +43,27 @@ const ModalContainer = styled.div`
     overflow: hidden;
     header {
       position: relative;
-      padding: 16px 64px 16px 16px;
-      background-color: #f1f1f1;
+      padding: 16px;
+      background-color: ${palette.orange[5]};
+      font-size: 20px;
       font-weight: 700;
+      color: white;
+      text-align: center;
       button {
+        padding: 0;
         position: absolute;
-        top: 15px;
+        top: 5px;
         right: 15px;
         width: 30px;
-        font-size: 21px;
-        font-weight: 700;
+        font-size: 2em;
         text-align: center;
-        color: #999;
+        color: white;
+        border: 0;
         background-color: transparent;
       }
     }
     main {
       padding: 16px;
-      border-bottom: 1px solid #dee2e6;
-      border-top: 1px solid #dee2e6;
-    }
-    footer {
-      padding: 12px 16px;
-      text-align: right;
-      button {
-        padding: 6px 12px;
-        color: #fff;
-        background-color: #6c757d;
-        border-radius: 5px;
-        font-size: 13px;
-      }
     }
   }
 `;
@@ -91,11 +82,6 @@ function Modal(props) {
               </button>
             </header>
             <main>{props.children}</main>
-            <footer>
-              <button className='close' onClick={close}>
-                close
-              </button>
-            </footer>
           </section>
         </ModalContainer>
       ) : null}
