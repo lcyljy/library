@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import logo_suwon from "../../lib/img/logo/logo_suwon.png";
 import palette from "../../lib/styles/palette";
 import Auth from "../auth/Auth";
+import { authService } from "../../fBase";
+import Modal from "./Modal";
 
 const UtilMenu = styled.div`
   z-index: 10000;
@@ -109,7 +111,17 @@ const Spacer = styled.div`
 `;
 
 const Header = () => {
-  const [isLogin, setLogin] = useState(false);
+  const [isLogin, setLogin] = useState(authService.currentUser);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = (e) => {
+    e.preventDefault();
+    setModalOpen(true);
+  };
+  const closeModal = (e) => {
+    e.preventDefault();
+    setModalOpen(false);
+  };
 
   return (
     <>
@@ -124,6 +136,7 @@ const Header = () => {
             도서관사업소 바로가기
           </Link>
           <div className='navBtn'>
+            <button onClick={openModal}>로그인</button>
             <Auth isLogin={isLogin} />
           </div>
           <div className='navBtn'>내서재</div>
@@ -154,6 +167,9 @@ const Header = () => {
         </WrapperNav>
       </Nav>
       <Spacer />
+      <Modal open={modalOpen} close={closeModal} header='Modal heading'>
+        test
+      </Modal>
     </>
   );
 };
