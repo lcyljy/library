@@ -1,0 +1,118 @@
+[debug] [2022-10-06T14:13:27.449Z] ----------------------------------------------------------------------
+[debug] [2022-10-06T14:13:27.451Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\USER\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2022-10-06T14:13:27.452Z] CLI Version:   11.13.0
+[debug] [2022-10-06T14:13:27.452Z] Platform:      win32
+[debug] [2022-10-06T14:13:27.452Z] Node Version:  v16.16.0
+[debug] [2022-10-06T14:13:27.455Z] Time:          Thu Oct 06 2022 23:13:27 GMT+0900 (대한민국 표준시)
+[debug] [2022-10-06T14:13:27.455Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-10-06T14:13:27.466Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2022-10-06T14:13:27.553Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-10-06T14:13:27.553Z] > authorizing via signed-in user (lcyljy1@gmail.com)
+[debug] [2022-10-06T14:13:27.554Z] [iam] checking project librarydb-8265b for permissions ["firebase.projects.get"]
+[debug] [2022-10-06T14:13:27.555Z] > refreshing access token with scopes: []
+[debug] [2022-10-06T14:13:27.556Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-10-06T14:13:27.556Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-10-06T14:13:27.912Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2022-10-06T14:13:27.913Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-10-06T14:13:27.928Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/librarydb-8265b:testIamPermissions [none]
+[debug] [2022-10-06T14:13:27.929Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/librarydb-8265b:testIamPermissions x-goog-quota-user=projects/librarydb-8265b
+[debug] [2022-10-06T14:13:27.929Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/librarydb-8265b:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-10-06T14:13:27.931Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2022-10-06T14:13:27.931Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2022-10-06T14:13:29.047Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/librarydb-8265b:testIamPermissions 200
+[debug] [2022-10-06T14:13:29.047Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/librarydb-8265b:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2022-10-06T14:13:29.048Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/librarydb-8265b [none]
+[debug] [2022-10-06T14:13:29.569Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/librarydb-8265b 200
+[debug] [2022-10-06T14:13:29.569Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/librarydb-8265b {"projectId":"librarydb-8265b","projectNumber":"603776730222","displayName":"LibraryDB","name":"projects/librarydb-8265b","resources":{"hostingSite":"librarydb-8265b"},"state":"ACTIVE","etag":"1_12481230-9131-4973-9c2b-6088619ae9f6"}
+[info] 
+[info] === Serving from 'C:\Users\USER\Documents\GitHub\library\frontend'...
+[info] 
+[debug] [2022-10-06T14:13:29.577Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/librarydb-8265b/sites 
+[info] +  functions: Using node@16 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@16 from host."}}
+[debug] [2022-10-06T14:13:29.623Z] defaultcredentials: writing to file C:\Users\USER\AppData\Roaming\firebase\lcyljy1_gmail_com_application_default_credentials.json
+[debug] [2022-10-06T14:13:29.625Z] Setting GAC to C:\Users\USER\AppData\Roaming\firebase\lcyljy1_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\USER\\AppData\\Roaming\\firebase\\lcyljy1_gmail_com_application_default_credentials.json"}}
+[debug] [2022-10-06T14:13:29.626Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/librarydb-8265b/adminSdkConfig [none]
+[debug] [2022-10-06T14:13:30.105Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/librarydb-8265b/adminSdkConfig 200
+[debug] [2022-10-06T14:13:30.105Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/librarydb-8265b/adminSdkConfig {"projectId":"librarydb-8265b","storageBucket":"librarydb-8265b.appspot.com"}
+[debug] [2022-10-06T14:13:30.499Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/librarydb-8265b/sites 200
+[debug] [2022-10-06T14:13:30.499Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/librarydb-8265b/sites {"sites":[{"name":"projects/librarydb-8265b/sites/librarydb-8265b","defaultUrl":"https://librarydb-8265b.web.app","appId":"1:603776730222:web:38a20fd2c0e37f1f0ad27f","type":"DEFAULT_SITE"}]}
+[debug] [2022-10-06T14:13:30.499Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/librarydb-8265b/webApps/1:603776730222:web:38a20fd2c0e37f1f0ad27f/config [none]
+[debug] [2022-10-06T14:13:31.699Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/librarydb-8265b/webApps/1:603776730222:web:38a20fd2c0e37f1f0ad27f/config 200
+[debug] [2022-10-06T14:13:31.699Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/librarydb-8265b/webApps/1:603776730222:web:38a20fd2c0e37f1f0ad27f/config {"projectId":"librarydb-8265b","appId":"1:603776730222:web:38a20fd2c0e37f1f0ad27f","storageBucket":"librarydb-8265b.appspot.com","apiKey":"AIzaSyBqe1OBGoQV7SuoHcs1lEIRnhEXRDt1svs","authDomain":"librarydb-8265b.firebaseapp.com","messagingSenderId":"603776730222","measurementId":"G-2M7RPTXBXQ"}
+[info] i  functions: Watching "C:\Users\USER\Documents\GitHub\library\frontend\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\USER\\Documents\\GitHub\\library\\frontend\\functions\" for Cloud Functions..."}}
+[info] i  hosting: Serving hosting files from: public {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mpublic\u001b[22m"}}
+[info] +  hosting: Local server: http://localhost:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5000\u001b[22m\u001b[24m"}}
+[debug] [2022-10-06T14:13:31.741Z] Validating nodejs source
+[debug] [2022-10-06T14:13:38.373Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[debug] [2022-10-06T14:13:38.373Z] Building nodejs source
+[debug] [2022-10-06T14:13:38.374Z] Analyzing nodejs backend spec
+[debug] [2022-10-06T14:13:38.375Z] Could not find functions.yaml. Must use http discovery
+[debug] [2022-10-06T14:13:39.423Z] Serving at port 9005
+
+[debug] [2022-10-06T14:13:41.278Z] Got response from /__/functions.yaml {"endpoints":{"apicall":{"platform":"gcfv1","httpsTrigger":{},"entryPoint":"apicall"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[debug] [2022-10-06T14:13:41.284Z] shutdown requested via /__/quitquitquit
+
+[info] +  functions: Loaded functions definitions from source: apicall. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: apicall."}}
+[info] +  functions[us-central1-apicall]: http function initialized (http://localhost:5001/librarydb-8265b/us-central1/apicall). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://localhost:5001/librarydb-8265b/us-central1/apicall)."}}
+[debug] [2022-10-06T14:13:46.382Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2022-10-06T14:13:46.383Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2022-10-06T14:13:46.383Z] Accepted request GET /librarydb-8265b/us-central1/apicall --> us-central1-apicall
+[debug] [2022-10-06T14:13:46.388Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-10-06T14:13:46.388Z] [functions] Got req.url=/librarydb-8265b/us-central1/apicall, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/librarydb-8265b/us-central1/apicall, mapping to path=/"}}
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2022-10-06T14:13:46.415Z] [worker-pool] addWorker(us-central1-apicall) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-apicall)"}}
+[debug] [2022-10-06T14:13:46.416Z] [worker-pool] Adding worker with key us-central1-apicall, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-apicall, total=1"}}
+[debug] [2022-10-06T14:13:49.432Z] [runtime-status] [36600] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.3.0","resolution":"C:\\Users\\USER\\Documents\\GitHub\\library\\frontend\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"[runtime-status] [36600] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"C:\\\\Users\\\\USER\\\\Documents\\\\GitHub\\\\library\\\\frontend\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2022-10-06T14:13:49.435Z] [runtime-status] [36600] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"C:\\Users\\USER\\Documents\\GitHub\\library\\frontend\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"[runtime-status] [36600] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"C:\\\\Users\\\\USER\\\\Documents\\\\GitHub\\\\library\\\\frontend\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-10-06T14:13:49.438Z] [runtime-status] [36600] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"[runtime-status] [36600] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2022-10-06T14:13:49.440Z] [runtime-status] [36600] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"C:\\Users\\USER\\Documents\\GitHub\\library\\frontend\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"[runtime-status] [36600] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"C:\\\\Users\\\\USER\\\\Documents\\\\GitHub\\\\library\\\\frontend\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-10-06T14:13:49.543Z] [runtime-status] [36600] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"[runtime-status] [36600] Checked functions.config() {\"config\":{}}"}}
+[debug] [2022-10-06T14:13:49.543Z] [runtime-status] [36600] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"3.24.1","resolution":"C:\\Users\\USER\\Documents\\GitHub\\library\\frontend\\functions\\node_modules\\firebase-functions\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"[runtime-status] [36600] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"C:\\\\Users\\\\USER\\\\Documents\\\\GitHub\\\\library\\\\frontend\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}}"}}
+[debug] [2022-10-06T14:13:49.545Z] [runtime-status] [36600] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"C:\\Users\\USER\\Documents\\GitHub\\library\\frontend\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"[runtime-status] [36600] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"C:\\\\Users\\\\USER\\\\Documents\\\\GitHub\\\\library\\\\frontend\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-10-06T14:13:49.549Z] [runtime-status] [36600] Resolved module firebase-admin {"declared":true,"installed":true,"version":"10.3.0","resolution":"C:\\Users\\USER\\Documents\\GitHub\\library\\frontend\\functions\\node_modules\\firebase-admin\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"[runtime-status] [36600] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"C:\\\\Users\\\\USER\\\\Documents\\\\GitHub\\\\library\\\\frontend\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}"}}
+[debug] [2022-10-06T14:13:49.550Z] [runtime-status] [36600] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.24.1","resolution":"C:\\Users\\USER\\Documents\\GitHub\\library\\frontend\\functions\\node_modules\\firebase-functions\\lib\\index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"[runtime-status] [36600] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"3.24.1\",\"resolution\":\"C:\\\\Users\\\\USER\\\\Documents\\\\GitHub\\\\library\\\\frontend\\\\functions\\\\node_modules\\\\firebase-functions\\\\lib\\\\index.js\"}"}}
+[debug] [2022-10-06T14:13:49.551Z] [runtime-status] [36600] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"10.3.0","resolution":"C:\\Users\\USER\\Documents\\GitHub\\library\\frontend\\functions\\node_modules\\firebase-admin\\lib\\index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"[runtime-status] [36600] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"10.3.0\",\"resolution\":\"C:\\\\Users\\\\USER\\\\Documents\\\\GitHub\\\\library\\\\frontend\\\\functions\\\\node_modules\\\\firebase-admin\\\\lib\\\\index.js\"}}"}}
+[debug] [2022-10-06T14:13:49.943Z] [runtime-status] [36600] Functions runtime initialized. {"cwd":"C:\\Users\\USER\\Documents\\GitHub\\library\\frontend\\functions","node_version":"16.16.0"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"[runtime-status] [36600] Functions runtime initialized. {\"cwd\":\"C:\\\\Users\\\\USER\\\\Documents\\\\GitHub\\\\library\\\\frontend\\\\functions\",\"node_version\":\"16.16.0\"}"}}
+[debug] [2022-10-06T14:13:49.944Z] [runtime-status] [36600] Listening to port: \\?\pipe\fire_emu_e27e7863a0b1c212 {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"[runtime-status] [36600] Listening to port: \\\\?\\pipe\\fire_emu_e27e7863a0b1c212"}}
+[debug] [2022-10-06T14:13:49.967Z] [worker-pool] submitRequest(triggerId=us-central1-apicall) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-apicall)"}}
+[debug] [2022-10-06T14:13:49.967Z] [worker-us-central1-apicall-a0b40c9d-be4d-43ba-aa89-9ad2c7be54ed]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-apicall-a0b40c9d-be4d-43ba-aa89-9ad2c7be54ed]: BUSY"}}
+[info] i  functions: Beginning execution of "apicall" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"Beginning execution of \"apicall\""}}
+[warn] !  External network resource requested!
+   - URL: "http://data4library.kr/api/loanItemSrchByLib?authKey=85abd0150ae942f7c3df0d5f665eb9d349105a72bc56afd5fad5870556a0935b&region=31&startDt=2022-01-01&endDt=2022-03-30&format=json"
+ - Be careful, this may be a production service. {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"External network resource requested!\n   - URL: \"http://data4library.kr/api/loanItemSrchByLib?authKey=85abd0150ae942f7c3df0d5f665eb9d349105a72bc56afd5fad5870556a0935b&region=31&startDt=2022-01-01&endDt=2022-03-30&format=json\"\n - Be careful, this may be a production service."}}
+[debug] [2022-10-06T14:13:51.880Z] [worker-us-central1-apicall-a0b40c9d-be4d-43ba-aa89-9ad2c7be54ed]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-apicall-a0b40c9d-be4d-43ba-aa89-9ad2c7be54ed]: IDLE"}}
+[debug] [2022-10-06T14:13:51.881Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[info] i  functions: Finished "apicall" in 1908.7867ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"Finished \"apicall\" in 1908.7867ms"}}
+[debug] [2022-10-06T20:45:34.434Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2022-10-06T20:45:34.445Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2022-10-06T20:45:34.446Z] Accepted request GET /librarydb-8265b/us-central1/apicall --> us-central1-apicall
+[debug] [2022-10-06T20:45:34.493Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-10-06T20:45:34.495Z] [functions] Got req.url=/librarydb-8265b/us-central1/apicall, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/librarydb-8265b/us-central1/apicall, mapping to path=/"}}
+[debug] [2022-10-06T20:45:34.497Z] [worker-pool] submitRequest(triggerId=us-central1-apicall) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-apicall)"}}
+[debug] [2022-10-06T20:45:34.497Z] [worker-us-central1-apicall-a0b40c9d-be4d-43ba-aa89-9ad2c7be54ed]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-apicall-a0b40c9d-be4d-43ba-aa89-9ad2c7be54ed]: BUSY"}}
+[info] i  functions: Beginning execution of "apicall" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"Beginning execution of \"apicall\""}}
+[info] i  functions: Finished "apicall" in 1236.9369ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-apicall"},"extension":{},"message":"Finished \"apicall\" in 1236.9369ms"}}
