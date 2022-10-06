@@ -175,11 +175,11 @@ function BookRender(props) {
 
     const popularAPI = useMemo(() => {
       return libCode === 0
-        ? `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&startDt=20${selectedYearIndex}-0${
+        ? `https://library-simple-proxy.herokuapp.com/http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&region=31&startDt=20${selectedYearIndex}-0${
             selectedMonIndex - 2
           }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
 `
-        : `http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYearIndex}-0${
+        : `https://library-simple-proxy.herokuapp.com/http://data4library.kr/api/loanItemSrchByLib?authKey=${API_KEY}&libCode=${libCode}&startDt=20${selectedYearIndex}-0${
             selectedMonIndex - 2
           }-01&endDt=20${selectedYearIndex}-0${selectedMonIndex}-30${GenreCheck}&format=json
   `;
@@ -187,10 +187,10 @@ function BookRender(props) {
     // 전체도서관을 찾을방법이 없어 임시로 영통도서관의 장서데이터를 불러옴.
     const accessionAPI = useMemo(() => {
       return libCode === 0
-        ? `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=141061&type=ALL&startDt=${year}-0${
+        ? `https://library-simple-proxy.herokuapp.com/http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=141061&type=ALL&startDt=${year}-0${
             month - 1
           }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json&pageNo=1&pageSize=500`
-        : `http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=${libCode}&type=ALL&startDt=${year}-0${
+        : `https://library-simple-proxy.herokuapp.com/http://data4library.kr/api/itemSrch?authKey=${API_KEY}&libCode=${libCode}&type=ALL&startDt=${year}-0${
             month - 1
           }-${checkDay}&endDt=${year}-0${month}-${checkDay}&format=json&pageNo=1&pageSize=500`;
     }, [libCode]);
