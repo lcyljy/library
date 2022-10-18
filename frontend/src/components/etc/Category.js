@@ -23,7 +23,7 @@ const CategoryBox = styled.div`
   border: 1px solid green;
 `;
 
-const MCategoryMenu = styled.div`
+const MCategoryMenu = styled.ul`
   overflow: hidden;
   position: relative;
   top: 0;
@@ -41,18 +41,22 @@ function Category() {
   // console.log(CL.map((v) => v.lCategoryDesc));
   // console.log(CL?.map((v) => v.mCategoryList));
   const CLmList = CL?.map((v) => v.mCategoryList);
-  let sCLmList = [];
-  for (let i = 0; i < CLmList.length; i++) {
-    // console.log(CLmList[i].map((v) => v.mCategoryDesc));
-    sCLmList.push(CLmList[i].map((v) => v.sCategoryList));
-    // for (let j = 0; j < sCLmList.length; j++) {
-    //   console.log(sCLmList[j]?.map((v) => v.sCategoryDesc));
-    // }
-  }
-  // console.log(sCLmList);
-  for (let j = 0; j < sCLmList.length; j++) {
-    console.log(sCLmList[j]?.map((v) => v.sCategoryDesc));
-  }
+  console.log(CL[0].mCategoryList[7].sCategoryList.map((v) => v.sCategoryDesc));
+  console.log(
+    CLmList[0].map((v) => v.sCategoryList.map((v) => v.sCategoryDesc))
+  );
+  // let sCLmList = [];
+  // for (let i = 0; i < CLmList.length; i++) {
+  //   // console.log(CLmList[i].map((v) => v.mCategoryDesc));
+  //   sCLmList.push(CLmList[i].map((v) => v.sCategoryList));
+  //   // for (let j = 0; j < sCLmList.length; j++) {
+  //   //   console.log(sCLmList[j]?.map((v) => v.sCategoryDesc));
+  //   // }
+  // }
+  // // console.log(sCLmList);
+  // for (let j = 0; j < sCLmList.length; j++) {
+  //   console.log(sCLmList[j]?.map((v) => v.sCategoryDesc));
+  // }
 
   //sCategoryDesc
   // console.log(CLmList?.map((v) => v.mCategoryDesc));
@@ -67,20 +71,16 @@ function Category() {
               {v.lCategoryDesc}
               {hover === `${i}hover` && (
                 <MCategoryMenu>
-                  <ul>
-                    {CLmList[i].map((v, i) => (
-                      <Fragment key={v.mCategoryCode}>
-                        <li>{v.mCategoryDesc}</li>
-                        <MCategoryMenu>
-                          <ul>
-                            {sCLmList[i]?.map((v) => (
-                              <li>{v.sCategoryDesc}</li>
-                            ))}
-                          </ul>
-                        </MCategoryMenu>
-                      </Fragment>
-                    ))}
-                  </ul>
+                  {CLmList[i].map((v, i) => (
+                    <Fragment key={i}>
+                      <li>{v.mCategoryDesc}</li>
+                      <MCategoryMenu>
+                        {v.sCategoryList.map((v) => (
+                          <li>{v.sCategoryDesc} </li>
+                        ))}
+                      </MCategoryMenu>
+                    </Fragment>
+                  ))}
                 </MCategoryMenu>
               )}
             </CategoryBox>
