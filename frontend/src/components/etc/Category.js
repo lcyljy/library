@@ -16,23 +16,21 @@ const CategroyContainer = styled.div`
 
 const CategoryBox = styled.div`
   min-width: 15%;
-
+  max-width: 15%;
   min-height: 150px;
+  max-height: 150px;
   background-color: ${palette.gray[4]};
   border: 1px solid green;
 `;
 
 const MCategoryMenu = styled.div`
-  display: none;
+  overflow: hidden;
   position: relative;
   top: 0;
   width: 100%;
-  left: 110%;
+  left: calc(100% + 10px);
   min-width: 15%;
   border: 1px solid red;
-  .listhover {
-    display: flex;
-  }
 `;
 // hover시 드롭다운 리스트 생성, 2중 리스트까지 나와야함.
 // 해당 리스트를 출력할 수 있는 방법은?
@@ -42,30 +40,49 @@ function Category() {
   const CL = CategoryList.contents.categoryList;
   // console.log(CL.map((v) => v.lCategoryDesc));
   // console.log(CL?.map((v) => v.mCategoryList));
-  const test = CL?.map((v) => v.mCategoryList);
-  // for (let i = 0; i < test.length; i++) {
-  //   console.log(test[i].map((v) => v.mCategoryDesc));
-  // }
-  console.log(test?.map((v) => v.mCategoryDesc));
+  const CLmList = CL?.map((v) => v.mCategoryList);
+  let sCLmList = [];
+  for (let i = 0; i < CLmList.length; i++) {
+    // console.log(CLmList[i].map((v) => v.mCategoryDesc));
+    sCLmList.push(CLmList[i].map((v) => v.sCategoryList));
+    // for (let j = 0; j < sCLmList.length; j++) {
+    //   console.log(sCLmList[j]?.map((v) => v.sCategoryDesc));
+    // }
+  }
+  // console.log(sCLmList);
+  for (let j = 0; j < sCLmList.length; j++) {
+    console.log(sCLmList[j]?.map((v) => v.sCategoryDesc));
+  }
 
-  const [hover, setHover] = useState(false);
+  //sCategoryDesc
+  // console.log(CLmList?.map((v) => v.mCategoryDesc));
+
+  const [hover, setHover] = useState("");
   return (
-    <MainContainer>
+    <MainContainer onMouseLeave={() => setHover("")}>
       <CategroyContainer>
         {CL.map((v, i) => (
           <Fragment key={v.lCategoryCode}>
-            <CategoryBox
-              onMouseEnter={() => setHover(true)}
-              onMouseLeave={() => setHover(false)}
-            >
+            <CategoryBox onMouseEnter={() => setHover(`${i}hover`)}>
               {v.lCategoryDesc}
-              <MCategoryMenu className={`list${i} ${hover ? "hover" : ""}`}>
-                <ul>
-                  {test[i].map((v) => (
-                    <li key={v.mCategoryCode}>{v.mCategoryDesc}</li>
-                  ))}
-                </ul>
-              </MCategoryMenu>
+              {hover === `${i}hover` && (
+                <MCategoryMenu>
+                  <ul>
+                    {CLmList[i].map((v, i) => (
+                      <Fragment key={v.mCategoryCode}>
+                        <li>{v.mCategoryDesc}</li>
+                        <MCategoryMenu>
+                          <ul>
+                            {sCLmList[i]?.map((v) => (
+                              <li>{v.sCategoryDesc}</li>
+                            ))}
+                          </ul>
+                        </MCategoryMenu>
+                      </Fragment>
+                    ))}
+                  </ul>
+                </MCategoryMenu>
+              )}
             </CategoryBox>
           </Fragment>
         ))}
