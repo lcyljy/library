@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from "react";
 import MainContainer from "../common/MainContainer";
-
 import styled from "styled-components";
 import { CategoryList } from "../../lib/documents/CategoryList";
 import palette from "../../lib/styles/palette";
+import Button from "../common/Button";
 
 const CategroyContainer = styled.div`
   display: flex;
@@ -11,75 +11,99 @@ const CategroyContainer = styled.div`
   gap: 10px 2%;
   width: 100%;
   height: auto;
-  background-color: rgba(255, 222, 120, 0.6);
+  background-color: rgb(255, 255, 255);
 `;
 
 const CategoryBox = styled.div`
-  width: 15%;
-
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 18%;
+  font-size: 1.2em;
   min-height: 150px;
   max-height: 150px;
   display: inline-block;
-  background-color: ${palette.gray[4]};
-  border: 1px solid green;
+  background-color: ${palette.gray[2]};
+  &:hover {
+    background-color: ${palette.orange[6]};
+    color: white;
+  }
 `;
 
 const MCategoryMenu = styled.ul`
-  left: ${CategoryBox.width};
+  color: black;
+  text-align: left;
   /* overflow: hidden; */
   /* display: flex; */
-  position: absolute;
+  position: relative;
+  width: 183px;
+  top: 0;
+  left: calc(90%);
   display: block;
-  width: ${CategoryBox.width};
   min-width: 15%;
-  border: 1px solid red;
+  border: 2px solid ${palette.orange[7]};
+  padding: 15px 0 0 10px;
+  line-height: 1.5;
+  font-size: 1em;
+  background-color: rgb(255, 255, 255);
+
+  li {
+    cursor: pointer;
+    &:hover {
+      border-bottom: 1px solid ${palette.orange[7]};
+    }
+  }
 `;
 
 const SCategoryMenu = styled.ul`
   position: absolute;
+  font-size: 0.8em;
+  width: 180px;
+  left: calc(90%);
   display: block;
-  width: ${CategoryBox.width};
   min-width: 15%;
-  border: 1px solid red;
+  padding: 4px;
+  border: 2px solid ${palette.orange[7]};
+  background-color: rgb(255, 255, 255);
+
+  li {
+    cursor: pointer;
+    &:hover {
+      border-bottom: 1px solid ${palette.orange[7]};
+    }
+  }
 `;
 // hover시 드롭다운 리스트 생성, 2중 리스트까지 나와야함.
 // 해당 리스트를 출력할 수 있는 방법은?
 //
+
+const ToggleButton = styled(Button)``;
 
 function Category() {
   const CL = CategoryList.contents.categoryList;
   // console.log(CL.map((v) => v.lCategoryDesc));
   // console.log(CL?.map((v) => v.mCategoryList));
   const CLmList = CL?.map((v) => v.mCategoryList);
-  console.log(CL[0].mCategoryList[7].sCategoryList.map((v) => v.sCategoryDesc));
-  console.log(
-    CLmList[0].map((v) => v.sCategoryList.map((v) => v.sCategoryDesc))
-  );
-  // let sCLmList = [];
-  // for (let i = 0; i < CLmList.length; i++) {
-  //   // console.log(CLmList[i].map((v) => v.mCategoryDesc));
-  //   sCLmList.push(CLmList[i].map((v) => v.sCategoryList));
-  //   // for (let j = 0; j < sCLmList.length; j++) {
-  //   //   console.log(sCLmList[j]?.map((v) => v.sCategoryDesc));
-  //   // }
-  // }
-  // // console.log(sCLmList);
-  // for (let j = 0; j < sCLmList.length; j++) {
-  //   console.log(sCLmList[j]?.map((v) => v.sCategoryDesc));
-  // }
-
-  //sCategoryDesc
-  // console.log(CLmList?.map((v) => v.mCategoryDesc));
+  // console.log(CL[0].mCategoryList[7].sCategoryList.map((v) => v.sCategoryDesc));
+  // console.log(
+  //   CLmList[0].map((v) => v.sCategoryList.map((v) => v.sCategoryDesc))
+  // );
 
   const [hover, setHover] = useState("");
   const [sHover, setsHover] = useState("");
   return (
-    <MainContainer onMouseLeave={() => setHover("")}>
+    <MainContainer>
+      <ToggleButton> test</ToggleButton>
       <CategroyContainer>
         {CL.map((v, i) => (
           <Fragment key={v.lCategoryCode}>
-            <CategoryBox onMouseEnter={() => setHover(`${i}hover`)}>
-              {v.lCategoryDesc}
+            <CategoryBox
+              onMouseEnter={() => setHover(`${i}hover`)}
+              onMouseLeave={() => setsHover("")}
+            >
+              <div>{v.lCategoryDesc}</div>
               {hover === `${i}hover` && (
                 <MCategoryMenu>
                   {CLmList[i].map((v, i) => (
@@ -87,10 +111,10 @@ function Category() {
                       <li onMouseEnter={() => setsHover(`${i}hover`)}>
                         {v.mCategoryDesc}
                       </li>
-                      {sHover === `${i}hover` && (
+                      {sHover === `${i}hover` && v.sCategoryList.length > 0 && (
                         <SCategoryMenu>
-                          {v.sCategoryList.map((v) => (
-                            <li>{v.sCategoryDesc} </li>
+                          {v.sCategoryList.map((v, i) => (
+                            <li key={i}>{v.sCategoryDesc} </li>
                           ))}
                         </SCategoryMenu>
                       )}
