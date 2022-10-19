@@ -99,13 +99,8 @@ export const ToggleButton = styled(Button)`
 
 function Category() {
   const CL = CategoryList.contents.categoryList;
-  // console.log(CL.map((v) => v.lCategoryDesc));
-  // console.log(CL?.map((v) => v.mCategoryList));
+
   const CLmList = CL?.map((v) => v.mCategoryList);
-  // console.log(CL[0].mCategoryList[7].sCategoryList.map((v) => v.sCategoryDesc));
-  // console.log(
-  //   CLmList[0].map((v) => v.sCategoryList.map((v) => v.sCategoryDesc))
-  // );
 
   const [hover, setHover] = useState("");
   const [sHover, setsHover] = useState("");

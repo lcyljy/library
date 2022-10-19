@@ -70,16 +70,9 @@ const TopicDetailBox = styled.div`
 function KdcSearch() {
   const [topic, setTopic] = useState("000");
   const KDCList = KDC.contents.categoryList;
-  console.log(KDCList);
-  console.log(KDCList.map((v) => v.mCategoryList));
-  console.log(topic);
-  console.log();
   const topicKDC = KDCList.map((v) => v.mCategoryList)[Number(topic.charAt())];
-  console.log(topicKDC);
-  console.log(topicKDC.map((v) => v.sCategoryList)[0]);
-  console.log(topicKDC.length);
   const sTopicKDC = topicKDC.map((v) => v.sCategoryList);
-  console.log(sTopicKDC);
+
   return (
     <MainContainer>
       <ToggleContainer>
