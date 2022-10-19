@@ -1,4 +1,5 @@
 import React from "react";
+import KdcSearch from "../components/etc/KdcSearch";
 import SiteRootNavContainer from "../container/common/SiteRootNavContainer";
 
 function KdcSearchPage() {
@@ -6,6 +7,7 @@ function KdcSearchPage() {
   return (
     <>
       <SiteRootNavContainer title={title}></SiteRootNavContainer>
+      <KdcSearch></KdcSearch>
     </>
   );
 }
