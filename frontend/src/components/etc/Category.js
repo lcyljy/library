@@ -78,8 +78,24 @@ const SCategoryMenu = styled.ul`
 // hover시 드롭다운 리스트 생성, 2중 리스트까지 나와야함.
 // 해당 리스트를 출력할 수 있는 방법은?
 //
+export const ToggleContainer = styled.div`
+  display: flex;
+`;
 
-const ToggleButton = styled(Button)``;
+export const ToggleButton = styled(Button)`
+  text-align: center;
+  line-height: 50px;
+  width: 220px;
+  height: 50px;
+  margin: 20px 5px;
+  padding: 0;
+  background-color: ${palette.gray[4]};
+  color: black;
+  &.active {
+    background-color: ${palette.blue[7]};
+    color: white;
+  }
+`;
 
 function Category() {
   const CL = CategoryList.contents.categoryList;
@@ -95,7 +111,12 @@ function Category() {
   const [sHover, setsHover] = useState("");
   return (
     <MainContainer>
-      <ToggleButton> test</ToggleButton>
+      <ToggleContainer>
+        <ToggleButton to='/categorySearch' className='active'>
+          카테고리분류
+        </ToggleButton>
+        <ToggleButton to='/kdcSearch'> 한국십진분류</ToggleButton>
+      </ToggleContainer>
       <CategroyContainer>
         {CL.map((v, i) => (
           <Fragment key={v.lCategoryCode}>
