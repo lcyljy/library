@@ -15,20 +15,30 @@ const CategroyContainer = styled.div`
 `;
 
 const CategoryBox = styled.div`
-  min-width: 15%;
-  max-width: 15%;
+  width: 15%;
+
   min-height: 150px;
   max-height: 150px;
+  display: inline-block;
   background-color: ${palette.gray[4]};
   border: 1px solid green;
 `;
 
 const MCategoryMenu = styled.ul`
-  overflow: hidden;
-  position: relative;
-  top: 0;
-  width: 100%;
-  left: calc(100% + 10px);
+  left: ${CategoryBox.width};
+  /* overflow: hidden; */
+  /* display: flex; */
+  position: absolute;
+  display: block;
+  width: ${CategoryBox.width};
+  min-width: 15%;
+  border: 1px solid red;
+`;
+
+const SCategoryMenu = styled.ul`
+  position: absolute;
+  display: block;
+  width: ${CategoryBox.width};
   min-width: 15%;
   border: 1px solid red;
 `;
@@ -62,6 +72,7 @@ function Category() {
   // console.log(CLmList?.map((v) => v.mCategoryDesc));
 
   const [hover, setHover] = useState("");
+  const [sHover, setsHover] = useState("");
   return (
     <MainContainer onMouseLeave={() => setHover("")}>
       <CategroyContainer>
@@ -73,12 +84,16 @@ function Category() {
                 <MCategoryMenu>
                   {CLmList[i].map((v, i) => (
                     <Fragment key={i}>
-                      <li>{v.mCategoryDesc}</li>
-                      <MCategoryMenu>
-                        {v.sCategoryList.map((v) => (
-                          <li>{v.sCategoryDesc} </li>
-                        ))}
-                      </MCategoryMenu>
+                      <li onMouseEnter={() => setsHover(`${i}hover`)}>
+                        {v.mCategoryDesc}
+                      </li>
+                      {sHover === `${i}hover` && (
+                        <SCategoryMenu>
+                          {v.sCategoryList.map((v) => (
+                            <li>{v.sCategoryDesc} </li>
+                          ))}
+                        </SCategoryMenu>
+                      )}
                     </Fragment>
                   ))}
                 </MCategoryMenu>
