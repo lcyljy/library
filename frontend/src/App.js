@@ -11,6 +11,7 @@ import KdcSearchPage from "./pages/KdcSearchPage";
 import Footer from "./components/common/Footer";
 import Redirect from "./pages/Redirect";
 import AuthPage from "./pages/AuthPage";
+import SingleBookPage from "./pages/SingleBookPage";
 import { useAuthContext } from "./components/auth/hooks/useAuthContext";
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path='/redirectB' element={<Redirect url={url2} />}></Route>
         <Route path='/auth' element={!user ? <AuthPage /> : null}></Route>
         {/* 임시로 null값을 넣어놨는데 잘못된 경로입니다 Page만들어야할 듯? */}
+        <Route path='/singleBook/:id' element={<SingleBookPage />}></Route>
       </Routes>
       <Footer></Footer>
     </>
