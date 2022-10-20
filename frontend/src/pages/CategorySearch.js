@@ -1,4 +1,5 @@
 import React from "react";
+import Category from "../components/etc/Category";
 import SiteRootNavContainer from "../container/common/SiteRootNavContainer";
 
 function CategorySearch() {
@@ -6,6 +7,7 @@ function CategorySearch() {
   return (
     <>
       <SiteRootNavContainer title={title}></SiteRootNavContainer>
+      <Category></Category>
     </>
   );
 }
