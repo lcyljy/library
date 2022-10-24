@@ -269,6 +269,17 @@ function BookRender(props) {
               return (
                 <Link
                   to={`/singleBook/${DB.isbn13}`}
+                  state={{
+                    author: DB.authors,
+                    bookImageURL: DB.bookImageURL,
+                    bookname: DB.bookname,
+                    class_nm: DB.class_nm,
+                    class_no: DB.class_no,
+                    isbn13: DB.isbn13,
+                    publisher: DB.publisher,
+                    vol: DB.vol,
+                    publication_year: DB.publication_year,
+                  }}
                   key={`${DB.isbn13} ${DB.vol} ${i + 1}`}
                 >
                   <li>
