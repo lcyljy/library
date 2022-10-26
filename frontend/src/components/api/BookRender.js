@@ -17,7 +17,7 @@ import DateFilter, {
   startDt,
   endDt,
 } from "../fillter/DateFilter";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const API_KEY = process.env.REACT_APP_DATA4LIBRARY_KEY;
 
@@ -267,21 +267,37 @@ function BookRender(props) {
             })
             .map((DB, i) => {
               return (
-                <li key={`${DB.isbn13} ${DB.vol} ${i + 1}`}>
-                  <h2>{i + 1}</h2>
-                  <BookImage
-                    style={{
-                      backgroundImage: `url(${
-                        DB.bookImageURL ? DB.bookImageURL : no_image
-                      })`,
-                    }}
-                  ></BookImage>
+                <Link
+                  to={`/singleBook/${DB.isbn13}`}
+                  state={{
+                    author: DB.authors,
+                    bookImageURL: DB.bookImageURL,
+                    bookname: DB.bookname,
+                    class_nm: DB.class_nm,
+                    class_no: DB.class_no,
+                    isbn13: DB.isbn13,
+                    publisher: DB.publisher,
+                    vol: DB.vol,
+                    publication_year: DB.publication_year,
+                  }}
+                  key={`${DB.isbn13} ${DB.vol} ${i + 1}`}
+                >
+                  <li>
+                    <h2>{i + 1}</h2>
+                    <BookImage
+                      style={{
+                        backgroundImage: `url(${
+                          DB.bookImageURL ? DB.bookImageURL : no_image
+                        })`,
+                      }}
+                    ></BookImage>
 
-                  <p>
-                    {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
-                  </p>
-                  <p>{DB.authors}</p>
-                </li>
+                    <p>
+                      {DB.bookname} {DB.vol ? `= ${DB.vol}` : null}
+                    </p>
+                    <p>{DB.authors}</p>
+                  </li>
+                </Link>
               );
             })
             .slice(offSet, offSet + limit)}
