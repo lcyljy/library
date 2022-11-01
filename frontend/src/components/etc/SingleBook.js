@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import palette from "../../lib/styles/palette";
 import no_image from "../../lib/img/book_img/no-image-MO.jpg";
+import BookSlider from "../common/BookSlider";
 
 const API_KEY = process.env.REACT_APP_DATA4LIBRARY_KEY;
 
@@ -52,6 +53,7 @@ function SingleBook(props) {
   const [bookInfo, setBookInfo] = useState({ response: {} });
   // 함께 대출한 도서 정보 출력
   const [browsingLoan, setBrowsingLoan] = useState({ response: {} });
+  const [coLoanBooks, setCoLoanBooks] = useState([]);
 
   // 도서관 코드 출력 START
   useEffect(() => {
@@ -106,7 +108,10 @@ function SingleBook(props) {
       }
     })();
   }, [book]);
-  console.log(browsingLoan.response.coLoanBooks);
+
+  useEffect(() => {
+    setCoLoanBooks(browsingLoan.response.coLoanBooks);
+  }, [browsingLoan]);
   // 11. 도서관별 도서 소장여부 및 대출 가능여부 조회
   // 13. 도서 소장 도서관 조회
   // 인기도서/추천도서 등 페이지에서 들어오는 경우 해당 책의 정보를 가져오면되지만...
@@ -141,6 +146,7 @@ function SingleBook(props) {
       </DetailContainer>
       {/* <InfoLibrary>{book.isbn13}</InfoLibrary> */}
       <BookDescription>책소개 : {bookInfoDetail}</BookDescription>
+      <BookSlider data={coLoanBooks}></BookSlider>
     </MainContainer>
   );
 }
