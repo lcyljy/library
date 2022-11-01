@@ -43,7 +43,6 @@ function SingleBook(props) {
   const book = location.state;
 
   const [data, setData] = useState({ response: {} });
-  // const [libData, setLibData] = useState({ response: {} });
 
   useEffect(() => {
     (async () => {
@@ -59,20 +58,10 @@ function SingleBook(props) {
   }, [book]);
 
   // // 도서관코드 출력
-  // const libArr = data.response.libs?.map((v) => v.lib.libCode);
+  const libArr = data.response.libs?.map((v) => v.lib.libCode);
+  console.log(libArr);
+
   // console.log(libArr[0]);
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       let libres = await fetch(
-  //         `https://library-simple-proxy.herokuapp.com/http://data4library.kr/api/bookExist?authKey=${API_KEY}&isbn13=${book.isbn13}&libCode=${libArr[0]}&format=json`
-  //       );
-  //       libres.json().then((libData) => setLibData(libData));
-  //     } catch (e) {
-  //       console.log(`${e} error가 발생했습니다.`);
-  //     }
-  //   })();
-  // }, [book]);
 
   // console.log(libData.response.result);
 
