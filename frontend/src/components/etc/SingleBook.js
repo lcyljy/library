@@ -38,12 +38,20 @@ const KDCList = styled.div``;
 
 // const InfoLibrary = styled.div``;
 
+const BookDescription = styled.div`
+  font-size: 1.5em;
+`;
+
 function SingleBook(props) {
   const location = useLocation();
   const book = location.state;
 
+  // 도서관 코드 출력
   const [data, setData] = useState({ response: {} });
+  // 도서 상세정보 출력
+  const [bookInfo, setBookInfo] = useState({ response: {} });
 
+  // 도서관 코드 출력 START
   useEffect(() => {
     (async () => {
       try {
@@ -57,15 +65,29 @@ function SingleBook(props) {
     })();
   }, [book]);
 
-  // // 도서관코드 출력
   const libArr = data.response.libs?.map((v) => v.lib.libCode);
   console.log(libArr);
+  // // 도서관코드 출력 END
 
   // console.log(libArr[0]);
 
   // console.log(libData.response.result);
 
   // 6. 도서 상세 조회
+  useEffect(() => {
+    (async () => {
+      try {
+        let res = await fetch(
+          `https://library-simple-proxy.herokuapp.com/http://data4library.kr/api/srchDtlList?authKey=${API_KEY}&isbn13=${book.isbn13}&format=json`
+        );
+        res.json().then((data) => setBookInfo(data));
+      } catch (e) {
+        console.log(`${e} error가 발생했습니다.`);
+      }
+    })();
+  }, [book]);
+  console.log(bookInfo.response.detail[0].book);
+  const bookInfoDetail = bookInfo.response.detail[0].book;
   // 7. 도서 키워드 목록
   // 8. 도서별 이용분석
   // 11. 도서관별 도서 소장여부 및 대출 가능여부 조회
@@ -101,6 +123,7 @@ function SingleBook(props) {
         </BookContainer>
       </DetailContainer>
       {/* <InfoLibrary>{book.isbn13}</InfoLibrary> */}
+      <BookDescription>책소개 : {bookInfoDetail.description}</BookDescription>
     </MainContainer>
   );
 }
